@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load i18n static %}
+{% load humanize %}
+{% static "" as baseUrl %}
+
+{% block title %}<title>Coffee Shop</title>{% endblock %}
+{% block header %}
+{% endblock %}
+{% block content %}
+
+<div class="container" style="margin-top:30px">
+    <div class="row">
+        <div class="col-sm-12">
+
+            {% if header %}
+                <h2>{{ header }}</h2>
+            {% else %}
+                <h2>Online Shop</h2>
+            {% endif %}
+
+            {% if products %}
+            {% for prod in products %}
+                <img height="128" style="float: left; margin-right:15px;" src="{% static '' %}coffeeshop/images/products/{{ prod.id }}.png"> 
+                <p><b><a href="{% url 'product' id=prod.id %}">{{ prod.name }}</a></b></p>
+                <p>{{ prod.description }}</p>
+                <form method="post" action="{% url 'addtocart' %}">
+                    {% csrf_token %}
+                    Unit price: {{ prod.unit_price|floatformat:2 }}&nbsp;&nbsp;
+                    <input size="2" name="qty" value="1"/>
+                    <input type="hidden" name="id" value="{{ prod.id }}"/>
+                    <span id="stock_{{ prod.id }}"></span>
+                    <button type="submit" class="btn">Add to Basket</button>
+                </form>
+                <p style="clear: both"></p>
+            {% endfor %}
+            {% else %}
+                <p>No matching products were found</p>
+            {% endif %}
+
+
+        </div> <!-- col-sm-12 -->
+
+    </div> <! -- row -->
+    
+</div> <! -- container -->
+{% endblock %}
+
+{% block endjs %}
+{% endblock %}

@@ -1,0 +1,16 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+   config.vm.box = "ubuntu/focal64"
+   config.vm.synced_folder "../secrets/", "/secrets"
+   config.vm.provision :shell, path: "bootstrap.sh"
+   config.vm.provision "shell", inline: "sudo apt install swapspace -y"
+   config.vm.provision "shell", run: "always", path: "reboot-provision.sh"
+   config.vm.network "private_network", ip: "10.50.0.3"
+   #config.vm.network "public_network", bridge: "en0: Wi-Fi (AirPort)"
+   config.vm.provider "virtualbox" do |vb|
+     vb.name = "csthirdparty"
+     vb.memory = "2048"
+    vb.customize ["modifyvm", :id, "--memory", "2048"]
+   end end

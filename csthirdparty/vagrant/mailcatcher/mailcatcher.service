@@ -1,0 +1,14 @@
+[Unit]
+Description = MailCatcher
+After=network.target
+After=systemd-user-sessions.service
+[Service]
+Type=simple
+Restart=on-failure
+User=vagrant
+ExecStart=/usr/local/bin/mailcatcher --foreground --smtp-ip 0.0.0.0 --ip 0.0.0.0 --smtp-port 25
+User=root
+Group=root
+[Install]
+WantedBy=multi-user.target
+

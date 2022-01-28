@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load i18n static %}
+{% load humanize %}
+{% static "" as baseUrl %}
+
+{% block title %}<title>Coffee Shop</title>{% endblock %}
+{% block header %}
+{% endblock %}
+{% block content %}
+
+<div class="container" style="margin-top:30px">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <h2>My Account</h2>
+
+            {% if user.is_authenticated %}
+                <p>Hi {{ user.first_name }}!</p>
+                <p>
+                    <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>Username</th><td>{{user.username }}</td>
+                        </tr>
+                        <tr>
+                            <th>First Name</th><td>{{user.first_name }}</td>
+                        </tr>
+                        <tr>
+                            <th>Last Name</th><td>{{user.last_name }}</td>
+                        </tr>
+                        <tr>
+                            <th>Email</th><td>{{user.email }}</td>
+                        </tr>
+                    </tbody>
+                    </table>
+                </p>
+                <p><a href="{% url 'two_factor:profile' %}">Two-Factor Authentication</a></p>
+                <p><a href="{% url 'changeemail' %}">Change email address</a></p>
+                <p><a href="{% url 'password_change' %}">Change password</a></p>
+                <p><a href="{% url 'logout' %}?next=/">Log out</a></p>
+            {% else %}
+                <p>Please <a href="{% url 'login' %}">Log in</a></p>
+            {% endif %}
+
+
+        </div> <!-- col-sm-12 -->
+
+    </div> <! -- row -->
+    
+</div> <! -- container -->
+{% endblock %}
+
+
+{% block endjs %}
+{% endblock %}

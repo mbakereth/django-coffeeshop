@@ -1,0 +1,8 @@
+.table-left > tbody > tr > td,
+.table-left > tbody > tr > th,
+.table-left > tfoot > tr > td,
+.table-left > tfoot > tr > th,
+.table-left > thead > tr > td,
+.table-left > thead > tr > th {
+    text-align: left;
+}

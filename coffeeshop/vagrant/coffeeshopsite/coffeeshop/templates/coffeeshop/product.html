@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% load i18n static %}
+{% load humanize %}
+{% static "" as baseUrl %}
+
+{% block title %}<title>Coffee Shop</title>{% endblock %}
+{% block header %}
+{% endblock %}
+{% block content %}
+
+<div class="container" style="margin-top:30px">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <h2>{{ product.name }}</h2>
+
+
+            <img height="128" style="float: left; margin-right:15px;" src="{% static '' %}coffeeshop/images/products/{{ product.id }}.png"> 
+            <p>{{ product.description }}</p>
+            <form method="post" action="{% url 'addtocart' %}">
+                {% csrf_token %}
+                Unit price: {{ product.unit_price|floatformat:2 }}&nbsp;&nbsp;
+                <input size="2" name="qty" value="1"/>
+                <input type="hidden" name="id" value="{{ product.id }}"/>
+                <span id="stock_{{ product.id }}"></span>
+                <button type="submit" class="btn">Add to Basket</button>
+            </form>
+            <span id="stocklevel">
+                <p></p>
+            </span>
+            <p style="clear: both"></p>
+
+            <h3>Comments</h3>
+
+            {% if user %}
+            <form method="POST" action="{% url 'addcomment' %}">
+                {% csrf_token %}
+                <input type="hidden" name="product_id" value="{{ product.id }}"/>
+                <div class="form-group">
+                    <label for="commentText" class="col-lg-2 control-label"><b>Your comment</b>
+                    </label>
+                    <div class="col-lg-10">
+                        <textarea name="comment" id="commentText" class="form-control" cols="30" rows="3" placeholder="Enter your comment here"></textarea>
+                    </div><!--end col 10-->
+                </div><!--ends form group-->
+                <button type="submit" class="btn">Comment</button>
+            </form>
+            {% endif %}
+
+            <form id="deleteForm" method="POST" action="{% url 'delcomment' %}">
+                {% csrf_token %}
+                <input type="hidden" id="delete_commentId" name="id" value="-1"/>
+            </form>
+            </form>
+            {% for comment in comments %}
+                <p>
+                    By <b>{{ comment.author }}</b> at {{ comment.datetime }} 
+                    {% if comment.author_id == user.id %}
+                        <button type="submit" class="btn" onClick="document.getElementById('delete_commentId').setAttribute('value','{{ comment.id }}'); document.getElementById('deleteForm').submit()">Delete</button>
+                    {% endif %}
+                    <br>
+                    {{ comment.comment | safe }}
+                </p>
+                <hr />
+            {% endfor %}
+
+        </div> <!-- col-sm-12 -->
+
+    </div> <! -- row -->
+    
+</div> <! -- container -->
+{% endblock %}
+
+
+{% block endjs %}
+<script>
+    function getStockLevel() {
+        const productId = "{{ product.id }}";
+          fetch("{% url 'stocklevel' %}", {
+            method: 'POST', 
+            headers: {
+                  'Content-Type': 'application/xml'
+            },
+            body:  "<product>" + productId + "</product>"
+          })
+          .then(
+              function(response) {
+                  if (response.status == 200) {
+                      response.json().then(function(data) {
+                        if (data.quantity == 0)
+                            $('#stocklevel').html('<p class="text-danger">Out of Stock</p>');
+                        else
+                            $('#stocklevel').html('<p class="text-success">' + data.quantity + ' in stock</p>');
+
+                    }
+                    );
+                }
+            }
+        )
+    }
+      
+
+    
+
+    $(document).ready(function() {
+        getStockLevel();
+    });
+</script>
+{% endblock %}

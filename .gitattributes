@@ -1,0 +1,7 @@
+# keep linefeed as LF (don't change to CRLF)
+* text eol=lf
+*.png binary
+*.jpg binary
+*.gif binary
+*.woff binary
+*.ttf binary

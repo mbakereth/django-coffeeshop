@@ -1,0 +1,26 @@
+{% load i18n static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/static/favicon.ico">
+     <script src="{% static 'csthirdparty/js/jquery-3.5.1.min.js' %}"></script>
+     <link rel="stylesheet" href="{% static 'csthirdparty/bootstrap/4.1.3/css/bootstrap.min.css' %}"/>
+     <script src="{% static 'csthirdparty/bootstrap/4.1.3/js/bootstrap.min.js' %}"></script>
+    {% block header %}{% endblock %}
+</head>
+
+<body>
+
+
+{% block content %}<!-- default content -->{% endblock %}
+
+{% block endjs %}{% endblock %}
+
+</body>
+</html>
+

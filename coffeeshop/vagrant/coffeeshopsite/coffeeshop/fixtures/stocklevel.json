@@ -1,0 +1,34 @@
+[
+    {
+        "model": "coffeeshop.stocklevel",
+        "pk": 1,
+        "fields": {
+            "product_id": 1,
+            "quantity_available": 10
+        }
+    },
+    {
+        "model": "coffeeshop.stocklevel",
+        "pk": 2,
+        "fields": {
+            "product_id": 2,
+            "quantity_available": 5
+        }
+    },
+    {
+        "model": "coffeeshop.stocklevel",
+        "pk": 3,
+        "fields": {
+            "product_id": 3,
+            "quantity_available": 20
+        }
+    },
+    {
+        "model": "coffeeshop.stocklevel",
+        "pk": 4,
+        "fields": {
+            "product_id": 4,
+            "quantity_available": 15
+        }
+    }
+]

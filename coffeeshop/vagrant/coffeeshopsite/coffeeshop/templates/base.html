@@ -1,0 +1,87 @@
+{% load i18n static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/static/favicon.ico">
+     <script src="{% static 'coffeeshop/js/jquery-3.5.1.min.js' %}"></script>
+     <link rel="stylesheet" href="{% static 'coffeeshop/bootstrap/4.1.3/css/bootstrap.min.css' %}"/>
+     <script src="{% static 'coffeeshop/bootstrap/4.1.3/js/bootstrap.min.js' %}"></script>
+     <link rel="stylesheet" href="{% static 'coffeeshop/css/coffeeshop.css' %}"/>
+    {% block header %}{% endblock %}
+</head>
+
+<body>
+
+<!-- navigation -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Coffee Shop</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+
+      <!-- Shop Link -->
+      <li class="nav-item active" id="navli_shop">
+        <a class="nav-link" href="{% url 'index' %}">Shop</a>
+      </li>
+
+      <!-- Basket Link -->
+      <li class="nav-item active" id="navli_basket">
+        <a class="nav-link" href="{% url 'basket' %}">Basket{% if cart_size > 0 %} ({{ cart_size }}){% endif %}</a>
+      </li>
+
+      <!-- Orders Link -->
+      <li class="nav-item active" id="navli_orders">
+        <a class="nav-link" href="{% url 'orders' %}">Orders</a>
+      </li>
+
+      <!-- Gallery Link -->
+      <li class="nav-item active" id="navli_orders">
+        <a class="nav-link" href="{% url 'gallery' %}">Gallery</a>
+      </li>
+
+      <!-- My Account Link -->
+      <li class="nav-item active" id="navli_contact">
+        <a class="nav-link" href="{% url 'myaccount' %}">My Account</a>
+      </li>
+
+      <!-- Contact Link -->
+      <li class="nav-item active" id="navli_contact">
+        <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+      </li>
+
+      <!-- Search Link -->
+      <li class="nav-item active" id="navli_search">
+        <form method="POST" action="{% url 'search' %}">
+          {% csrf_token %}
+          <input class="form-control" name="search" size="16" placeholder="Search"/><input type="submit" style="display: none" />
+        </form>
+      </li>
+      
+</form>
+    </ul>
+    
+    <ul class="nav navbar-nav navbar-right">
+      {% if user.is_authenticated %}
+        <li><a class="nav-link" href="{% url 'logout' %}?next=/">{{ user.username }} Logout</a></span></li>
+      {% else %}
+        <li><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>
+
+{% block content %}<!-- default content -->{% endblock %}
+
+{% block endjs %}{% endblock %}
+
+</body>
+</html>
+

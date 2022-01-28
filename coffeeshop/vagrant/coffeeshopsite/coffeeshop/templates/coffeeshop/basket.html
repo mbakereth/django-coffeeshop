@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% load i18n static %}
+{% static "" as baseUrl %}
+
+{% block title %}<title>Coffee Shop</title>{% endblock %}
+{% block header %}
+{% endblock %}
+{% block content %}
+
+<div class="container" style="margin-top:30px">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <h2>Shopping Basket</h2>
+
+            {% if cart %}
+                <table class="table">
+                  <thead>
+                    <tr>
+                          <th scope="col">Product</th>
+                          <th scope="col">Unit Price</th>
+                          <th scope="col">Quantity</th>
+                          <th scope="col">Price</th>
+                    </tr>
+                  </thead>
+                <tbody>
+                {% for item in cart.cartitem_set.all %}
+                    <tr>
+                        <form method="post" action="{% url 'updatecart' %}">
+                            {% csrf_token %}
+                        <td>
+                            <img height="64" style="float: left; margin-right:15px;" src="{% static '' %}coffeeshop/images/products/{{ item.product.id }}.png"> 
+                            <b>{{ item.product.name }}</b>
+                        </td>
+                        <td>
+                            {{ item.product.unit_price|floatformat:2 }}
+                        </td>
+                        <td>
+                            <input size="2" name="qty" value="{{ item.quantity }}"/>
+                            <input type="hidden" name="id" value="{{ item.product.id }}"/>
+                            <button type="submit" class="btn">Update</button>
+                        </td>
+                        <td>
+                            {{ item.subtotal|floatformat:2 }}
+                        </td>
+                        </form>
+                    </tr>
+                {% endfor %}
+                    <tr>
+                        <th>
+                            Total
+                        </th>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <th>
+                            {{ cart.total|floatformat:2 }}
+                        </th>
+                    </tr>
+                </tbody>
+                </table>
+                {% if address and card %}
+                    <h5>Deliver to:</h5>
+                    <p>
+                        {{ user.first_name }} {{ user.last_name }}<br>
+                        {{ address.address1}}<br>
+                        {% if address.address2 %}
+                            {{ address.address2}}<br>
+                        {% endif %}
+                        {{ address.city}}<br>
+                        {{ address.state}},
+                        {{ address.postcode}}<br>
+                        {{ address.country.name}}
+                    </p>
+
+                    <h5>Invoice to:</h5>
+                    <p>
+                        {{ user.first_name }} {{ user.last_name }}<br>
+                        {{ card.address.address1}}<br>
+                        {% if card.address.address2 %}
+                            {{ card.address.address2}}<br>
+                        {% endif %}
+                        {{ card.address.city}}<br>
+                        {{ card.address.state}},
+                        {{ card.address.postcode}}<br>
+                        {{ card.address.country.name}}
+                    </p>
+                    <p>Card ...{{ card.number|slice:"11:15" }} expiry {{ card.expire_month }} / {{ card.expire_year }}</p>
+
+
+                    <form method="post" action="{% url 'placeorder' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-primary">Place Order</button>
+                    </form>
+                {% elif card %}
+                    <p>No delivery address set</p>
+                {% elif address %}
+                    <p>No payment card set</p>
+                {% else %}
+                    <p>No payment card or delivery address set</p>
+                {% endif %}
+            {% else %}
+                <p>Your basket is empty</p>
+            {% endif %}
+
+        </div> <!-- col-sm-12 -->
+
+    </div> <! -- row -->
+    
+</div> <! -- container -->
+{% endblock %}
+
+{% block endjs %}
+{% endblock %}

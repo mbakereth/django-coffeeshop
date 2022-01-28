@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load i18n static %}
+{% static "" as baseUrl %}
+
+{% block title %}<title>Coffee Shop</title>{% endblock %}
+{% block header %}
+{% endblock %}
+{% block content %}
+
+<script>
+    function gettest() {
+        $.ajax({
+            type: "GET",
+               url: "http://10.50.0.3/gettest/",
+              success: function(data){ 
+                   alert(data.status) 
+               },
+         });
+        //form.submit()
+    }
+
+    function posttest() {
+        var form = document.getElementById('posttestform'); 
+        var serial = $('#posttestform').serialize();
+
+        $.ajax({
+            type: "POST",
+               url: "http://10.50.0.3/posttest/",
+               //data: $('#posttestform').serialize(), // serializes the form's elements.
+               data: '{"value": "TestValue"}',
+               contentType: "application/json; charset=utf-8",
+               dataType: "json",
+              success: function(data){ 
+                   alert(data.status) 
+               },
+         });
+        //form.submit()
+    }
+
+    function credtest() {
+        $.ajax({
+            type: "GET",
+               url: "http://10.50.0.3/credtest/",
+            xhrFields: {
+                 withCredentials: true
+            },
+              success: function(data){ 
+                   alert("Server got " + data.cookies + "\n" + "Client has " + document.cookie) 
+               },
+         });
+        //form.submit()
+    }
+</script>
+
+<div class="container" style="margin-top:30px">
+    <div class="row">
+        <div class="col-sm-12" id="cols">
+
+            <h2>CORS Test</h2>
+
+            <form id="posttestform" method="POST" action="http://10.50.0.3/posttest/">
+                <input type="hidden" name="value" id="value" value="TestValue" />
+            </form>
+
+            <p><button class="btn btn-primary" onClick="gettest()">Test GET</button></p>
+
+            <p><button class="btn btn-primary" onClick="posttest()">Test POST</button></p>
+
+            <p><button class="btn btn-primary" onClick="credtest()">Test Credentials</button></p>
+
+        </div> <!-- col-sm-12 -->
+
+    </div> <! -- row -->
+    
+</div> <! -- container -->
+
+<script>
+    var i = document.createElement("img");
+    i.src = "http://10.50.0.3/media/adelboden.jpg";
+    document.getElementById('cols').appendChild(i);
+</script>
+{% endblock %}
+
+{% block endjs %}
+{% endblock %}

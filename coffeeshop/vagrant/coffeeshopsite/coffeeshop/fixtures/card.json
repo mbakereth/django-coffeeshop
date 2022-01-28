@@ -1,0 +1,24 @@
+[
+    {
+        "model": "coffeeshop.card",
+        "pk": 1,
+        "fields": {
+            "user_id": 2,
+            "number": "1234567890123456",
+            "expire_month": 5,
+            "expire_year": 23,
+            "address_id": 1
+        }
+    },
+    {
+        "model": "coffeeshop.card",
+        "pk": 2,
+        "fields": {
+            "user_id": 3,
+            "number": "4567890123456789",
+            "expire_month": 1,
+            "expire_year": 24,
+            "address_id": 2
+        }
+    }
+]

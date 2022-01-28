@@ -1,0 +1,38 @@
+[
+    {
+        "model": "coffeeshop.product",
+        "pk": 1,
+        "fields": {
+            "name": "Rainforest",
+            "description": "Nutty, earthy flavour.  90% Arabica, 10% Robusto.",
+            "unit_price": 7.99
+        }
+    },
+    {
+        "model": "coffeeshop.product",
+        "pk": 2,
+        "fields": {
+            "name": "Monsoon",
+            "description": "Picked after the monsoon.  Slightly oily, dark chocolate flavour.  90% Arabica, 20% Robusto.",
+            "unit_price": 8.99
+        }
+    },
+    {
+        "model": "coffeeshop.product",
+        "pk": 3,
+        "fields": {
+            "name": "Milano",
+            "description": "A classic espresso blend.  Rich, dark roasted.  90% Arabica, 10% Robusto.",
+            "unit_price": 7.49
+        }
+    },
+    {
+        "model": "coffeeshop.product",
+        "pk": 4,
+        "fields": {
+            "name": "Java",
+            "description": "A pure Arabica coffee.  Mild, smooth flavour.  100% Arabica.",
+            "unit_price": 7.49
+        }
+    }
+]

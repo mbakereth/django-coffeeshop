@@ -1,0 +1,28 @@
+[
+    {
+        "model": "coffeeshop.address",
+        "pk": 1,
+        "fields": {
+            "user_id": 2,
+            "address1": "2 Kingsford Smith Dve",
+            "address2": "",
+            "city": "Albion",
+            "state": "Qld",
+            "postcode": "4010",
+            "country": "AU"
+        }
+    },
+    {
+        "model": "coffeeshop.address",
+        "pk": 2,
+        "fields": {
+            "user_id": 3,
+            "address1": "1060 W Addison St",
+            "address2": "",
+            "city": "Chicago",
+            "state": "IL",
+            "postcode": "60613",
+            "country": "US"
+        }
+    }
+]

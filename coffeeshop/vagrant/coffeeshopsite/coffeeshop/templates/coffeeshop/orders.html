@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load i18n static %}
+{% static "" as baseUrl %}
+
+{% block title %}<title>Coffee Shop</title>{% endblock %}
+{% block header %}
+{% endblock %}
+{% block content %}
+
+<div class="container" style="margin-top:30px">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <h2>Orders</h2>
+
+            {% if orders %}
+                <table class="table">
+                  <thead>
+                    <tr>
+                          <th scope="col">Order #</th>
+                          <th scope="col">Date</th>
+                          <th scope="col">Items</th>
+                          <th scope="col">Total</th>
+                    </tr>
+                  </thead>
+                <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <form method="post" action="{% url 'updatecart' %}">
+                            {% csrf_token %}
+                        <th>
+                            {{ order.id }}</b>
+                        </th>
+                        <td>
+                            {{ order.order_date }}</b>
+                        </td>
+                        <td>
+                            {% for item in order.orderitem_set.all %}
+                                {{ item.quantity }}x {{ item.product.name }}
+                                {% if forloop.last %}
+                                {% else %}
+                                    <br>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {{ order.total|floatformat:2 }}
+                        </td>
+                        </form>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                </table>
+
+            {% else %}
+                <p>Your have no orders</p>
+            {% endif %}
+
+        </div> <!-- col-sm-12 -->
+
+    </div> <! -- row -->
+    
+</div> <! -- container -->
+{% endblock %}
+
+{% block endjs %}
+{% endblock %}

