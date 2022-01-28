@@ -13,6 +13,8 @@
 **/csthirdparty/target
 **/static/admin
 **/static/flags
+**/static/rest_framework
+**/static/django_extensions
 **/*.crt
 **/*.csr
 **/*.key
