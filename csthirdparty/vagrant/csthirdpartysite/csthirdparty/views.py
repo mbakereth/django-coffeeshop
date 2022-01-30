@@ -1,14 +1,16 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
-from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
+from django.contrib.auth.decorators import login_required, \
+    permission_required, user_passes_test
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
-from datetime import datetime    
+from datetime import datetime
 import requests
 import json
 
 from .models import *
 from .forms import *
+
 
 def index(request):
     html = '''<html>
@@ -20,12 +22,14 @@ def index(request):
     '''
     return HttpResponse(html, content_type="text/html")
 
+
 @require_http_methods(["GET"])
 @csrf_exempt
 def youhavewon(request):
 
     context = {}
     return render(request, 'csthirdparty/youhavewon.html', context)
+
 
 def cookies(request, cookie):
     try:
@@ -41,28 +45,32 @@ def cookies(request, cookie):
     '''
     return HttpResponse(html, content_type="text/html")
 
+
 @require_http_methods(["GET"])
 def gettest(request):
     return JsonResponse({'status': 'ok'})
+
 
 @require_http_methods(["GET"])
 def credtest(request):
     response = JsonResponse({'status': 'ok', 'cookies': str(request.COOKIES)})
     response.set_cookie('corstest', 'ivebeenset')
     return response
-    
+
+
 @require_http_methods(["POST"])
 @csrf_exempt
 def posttest(request):
     try:
         json_data = json.loads(request.body)
         value = json_data['value']
-        #value = request.POST["value"]
+        # value = request.POST["value"]
         postdata = PostTest(value=value, add_date=datetime.now())
         postdata.save()
         return JsonResponse({'status': 'ok'})
     except Exception as e:
         return JsonResponse({'status': 'fail'})
+
 
 # OAuth callback that just send the code in a JSON
 def oauthcallback(request):

@@ -4,7 +4,6 @@ export DEBIAN_FRONTEND=noninteractive
 
 . /secrets/config.env
 
-echo ". /secrets/config.env" >> /home/vagrant/.profile
 echo ". /secrets/config.env" >> /home/vagrant/.bashrc
 
 # Install packages
@@ -34,28 +33,7 @@ apt-get install -y ssmtp
 cp /vagrant/ssmtp/ssmtp.conf /etc/ssmtp/ssmtp.conf
 
 # Install python packages
-# Django web framework and optional packages for it
-# Psycopg2 is the Python library to connect to Postgres
-# Sqlalchemy is not normally needed for Django apps but we use it to demonstrate
-# SQL Injection vulnerabilities
-# Jupyerlab is a handy way of experimenting with Python, and supported by Django,
-# but not used directly in these demos.
-pip3 install django==3.2.7
-pip3 install django-extensions
-pip3 install django-templatetags
-pip3 install django-countries
-pip3 install djangorestframework djangorestframework-api-key
-pip3 install psycopg2-binary
-pip3 install sqlalchemy
-pip3 install --no-dependencies django-bootstrap4==2.2.0
-pip3 install django-loginas
-pip3 install jupyterlab
-pip3 install django-cors-headers
-pip3 install django-csp
-pip3 install setuptools-rust
-pip3 install django-oauth-toolkit
-pip3 install "django-two-factor-auth[phonenumberslite]"
-pip3 install django-sslserver django-mfa2
+pip3 install -r /vagrant/coffeeshopsite/requirements.txt
 
 # set hostname
 hostnamectl set-hostname coffeeshop

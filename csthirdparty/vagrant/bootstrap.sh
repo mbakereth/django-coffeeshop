@@ -31,24 +31,7 @@ systemctl enable mailcatcher
 service mailcatcher start
 
 # Install python packages
-# Django web framework and optional packages for it
-# Psycopg2 is the Python library to connect to Postgres
-# Sqlalchemy is not normally needed for Django apps but we use it to demonstrate
-# SQL Injection vulnerabilities
-# Jupyerlab is a handy way of experimenting with Python, and supported by Django,
-# but not used directly in these demos.
-pip3 install django==3.2.7
-pip3 install django-extensions
-pip3 install django-templatetags
-pip3 install django-countries
-pip3 install djangorestframework
-pip3 install psycopg2-binary
-pip3 install sqlalchemy
-pip3 install --no-dependencies django-bootstrap4==2.2.0
-pip3 install django-loginas
-pip3 install jupyterlab
-pip3 install django-cors-headers
-pip3 install django-csp
+sudo pip3 install -r /vagrant/csthirdpartysite/requirements.txt
 
 # Install apache config
 rm /etc/apache2/apache2.conf

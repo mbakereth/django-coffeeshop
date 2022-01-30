@@ -13,4 +13,4 @@ urlpatterns = [
     path('posttest/', views.posttest, name='posttest'),
     path('credtest/', views.credtest, name='credtest'),
     path('oauthcallback/', views.oauthcallback, name='oauthcallback'),
-] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -23,7 +23,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = 'django-insecure-*c+&m6qz^1&@bz3$@r0sg0*rtg%m1y2#yjjt-va+9uacuo+-_='
 SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -90,10 +89,11 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': 5432,
         'USER': os.environ['DBOWNER'],
-        'PASSWORD': os.environ['DBOWNERPWD'], 
+        'PASSWORD': os.environ['DBOWNERPWD'],
     }
 }
-if 'test' in sys.argv or 'test_coverage' in sys.argv: #Covers regular testing and django-coverage
+# Following covers regular testing and django-coverage
+if 'test' in sys.argv or 'test_coverage' in sys.argv:
     DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
 
 
@@ -102,16 +102,20 @@ if 'test' in sys.argv or 'test_coverage' in sys.argv: #Covers regular testing an
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
 
@@ -134,13 +138,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-#STATICFILES_DIRS = [
-#    os.path.join(BASE_DIR, 'csthirdparty/static')
-#]
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'csthirdparty/static')
+# ]
 STATIC_ROOT = '/vagrant/csthirdpartysite/csthirdparty/static'
 
-MEDIA_ROOT= '/vagrant/csthirdpartysite/csthirdparty/media'
-MEDIA_URL="/media/"
+MEDIA_ROOT = '/vagrant/csthirdpartysite/csthirdparty/media'
+MEDIA_URL = "/media/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -176,9 +180,8 @@ SESSION_COOKIE_HTTPONLY = True
 
 # CORS
 CORS_ALLOW_ALL_ORIGINS = True
-#CORS_ALLOWED_ORIGINS = []
+# CORS_ALLOWED_ORIGINS = []
 CORS_ALLOW_CREDENTIALS = True
 
 # CSP
 CSP_DEFAULT_SRC = ("'self'", "*", "'unsafe-inline'")
-

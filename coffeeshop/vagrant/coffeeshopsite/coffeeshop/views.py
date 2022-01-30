@@ -1,6 +1,7 @@
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
+from django.contrib.auth.decorators import login_required, \
+    permission_required, user_passes_test
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib.auth import update_session_auth_hash
@@ -15,7 +16,7 @@ import django.middleware.csrf
 from rest_framework import viewsets
 from rest_framework import permissions
 import django.contrib.auth.views
-from datetime import datetime    
+from datetime import datetime
 from django.db import connection
 import pathlib
 import os
@@ -28,10 +29,9 @@ from .forms import *
 from .serializers import *
 from .permissions import *
 
-### Toy coffee shop views
-
 ##########################################################
 # Helpers
+
 
 def get_cart_size(user):
     cart_size = 0
@@ -44,12 +44,14 @@ def get_cart_size(user):
 ############################################################
 # Pages
 
+
 def index(request):
     products = Product.objects.all().order_by('name')
     cart_size = get_cart_size(request.user)
 
     context = {"products": products, "cart_size": cart_size}
     return render(request, 'coffeeshop/index.html', context)
+
 
 def product(request, id):
     print("Product", id)
@@ -60,14 +62,17 @@ def product(request, id):
         raise Http404
     cart_size = get_cart_size(request.user)
     comments = Comment.objects.filter(product_id=id)
-    context = {"product": product, "cart_size": cart_size, 'comments': comments}
+    context = {"product": product, "cart_size": cart_size,
+               'comments': comments}
     return render(request, 'coffeeshop/product.html', context)
+
 
 def myaccount(request):
     cart_size = get_cart_size(request.user)
 
     context = {"cart_size": cart_size}
     return render(request, 'coffeeshop/myaccount.html', context)
+
 
 @login_required
 def basket(request):
@@ -86,18 +91,21 @@ def basket(request):
     card_count = request.user.card_set.count()
     if (card_count > 0):
         card = request.user.card_set.first()
-    context = {"cart": cart, "cart_size": cart_size, "address": address, "card": card}
+    context = {"cart": cart, "cart_size": cart_size,
+               "address": address, "card": card}
 
     return render(request, 'coffeeshop/basket.html', context)
+
 
 @login_required
 def orders(request):
     orders = Order.objects.filter(user_id=request.user.id)
     cart_size = get_cart_size(request.user)
 
-    context = {"orders": orders, "cart_size": cart_size,}
+    context = {"orders": orders, "cart_size": cart_size}
 
     return render(request, 'coffeeshop/orders.html', context)
+
 
 @login_required
 @require_http_methods(["POST"])
@@ -140,7 +148,8 @@ def addtocart(request):
                     break
             cart_size = cart.cartitem_set.count()
             if (cart_item is None):
-                cart_item = CartItem(product_id=product_id, cart_id=cart.id, quantity=quantity)
+                cart_item = CartItem(product_id=product_id, cart_id=cart.id,
+                                     quantity=quantity)
                 cart_size += 1
             else:
                 cart_item.quantity += quantity
@@ -221,6 +230,7 @@ def updatecart(request):
         context = {'cart_size': cart_size, 'error_msg': error_msg}
         return render(request, 'coffeeshop/error.html', context)
 
+
 @login_required
 @require_http_methods(["POST"])
 def placeorder(request):
@@ -241,7 +251,8 @@ def placeorder(request):
         order.save()
         for cartitem in cart.cartitem_set.all():
             orderitem = OrderItem(order_id=order.id,
-                    product_id=cartitem.product.id,quantity=cartitem.quantity)
+                                  product_id=cartitem.product.id,
+                                  quantity=cartitem.quantity)
             orderitem.save()
             order.orderitem_set.add(orderitem)
         cart.delete()
@@ -252,9 +263,10 @@ def placeorder(request):
         context = {'cart_size': cart_size, 'error_msg': error_msg}
         return render(request, 'coffeeshop/error.html', context)
 
-# This is a very bad mail implementation.  Not only does it not have 
+
+# This is a very bad mail implementation.  Not only does it not have
 # error checking and input sanitisation but it has a command
-# injection vulnerability.  
+# injection vulnerability.
 # Do not use in real applications
 @login_required
 @require_http_methods(["GET", "POST"])
@@ -269,7 +281,9 @@ def contact(request):
         error_msg = 'No message given.'
     if (error_msg == ''):
         body = request.POST['message']
-        cmd = ' printf "From: ' + request.user.email + '\nSubject: CoffeeShop User Contact\n\n' + body + '" | ssmtp contact@coffeeshop.com'
+        cmd = ' printf "From: ' + request.user.email + \
+            '\nSubject: CoffeeShop User Contact\n\n' + body + \
+            '" | ssmtp contact@coffeeshop.com'
         print(cmd)
         os.system(cmd)
         context = {'cart_size': cart_size}
@@ -277,6 +291,7 @@ def contact(request):
 
     context = {'cart_size': cart_size, 'error_msg': error_msg}
     return render(request, 'coffeeshop/error.html', context)
+
 
 # This is a very bad search form.  It's only purpose is to illustrate
 # SQL injection vulnerabilities.
@@ -291,9 +306,10 @@ def search(request):
     if (error_msg == ''):
         search_text = request.POST['search']
         with connection.cursor() as cursor:
-            sql = '''SELECT id, name, description, unit_price 
+            sql = '''SELECT id, name, description, unit_price
                        FROM coffeeshop_product
-                      WHERE (LOWER(name) like '%{}%' or LOWER(description) like '%{}%')
+                      WHERE (LOWER(name) like '%{}%'
+                             or LOWER(description) like '%{}%')
                   '''.format(search_text.lower(), search_text.lower())
             print(sql)
             products = []
@@ -301,12 +317,14 @@ def search(request):
                 cursor.execute(sql)
                 for row in cursor.fetchall():
                     (pk, name, description, unit_price) = row
-                    product = Product(id=pk, name=name, description=description, 
-                        unit_price=unit_price)
+                    product = Product(id=pk, name=name,
+                                      description=description,
+                                      unit_price=unit_price)
                     products.append(product)
             except Exception as e:
                 print(e)
-    context = {"products": products, "cart_size": cart_size, "header": 'Search'}
+    context = {"products": products, "cart_size": cart_size,
+               "header": 'Search'}
     return render(request, 'coffeeshop/index.html', context)
 
 
@@ -317,15 +335,14 @@ def addcomment(request):
         if (form.is_valid()):
             comment_text = form.cleaned_data['comment']
             product_id = form.cleaned_data['product_id']
-            comment = Comment(author_id=request.user.id, 
-                product_id=product_id,
-                datetime=datetime.now(),
-                comment=comment_text)
+            comment = Comment(author_id=request.user.id,
+                              product_id=product_id,
+                              datetime=datetime.now(),
+                              comment=comment_text)
             comment.save()
             next_url = "/product/" + str(product_id)
             return redirect(next_url)
         return HttpResponse(status=401)
-
 
 
 @login_required
@@ -349,9 +366,10 @@ def delcomment(request):
         raise Http404
     return redirect(next_url)
 
+
 @login_required
 @require_http_methods(["GET", "POST"])
-@csrf_exempt # this is a bad idea - we have it to demonstrate a vulnerability only
+@csrf_exempt  # this is a bad idea - it is to demonstrate a vulnerability only
 def changeemail(request):
     cart_size = get_cart_size(request.user)
     print("Change email")
@@ -390,17 +408,23 @@ def changeemail(request):
         context = {"cart_size": cart_size, 'error_msg': error_msg}
         return render(request, 'coffeeshop/error.html', context)
 
+
 # Returns the CSRF token as a JSON string
 @require_http_methods(["GET", "HEAD"])
 @csrf_exempt
 def getcsrftoken(request):
-    return JsonResponse({'csrftoken': django.middleware.csrf.get_token(request)})
+    return JsonResponse({'csrftoken':
+                         django.middleware.csrf.get_token(request)})
+
 
 # Tests the CSRF token is correct
 @require_http_methods(["POST"])
 def testcsrftoken(request):
-    csrftoken = request.POST['csrfmiddlewaretoken'];
-    return JsonResponse({'status': 'ok', 'received': csrftoken, 'correct': django.middleware.csrf.get_token(request)})
+    csrftoken = request.POST['csrfmiddlewaretoken']
+    return JsonResponse({'status': 'ok',
+                         'received': csrftoken,
+                         'correct': django.middleware.csrf.get_token(request)})
+
 
 # CSP report handler - send as email
 @csrf_exempt
@@ -409,7 +433,8 @@ def email_csp_report(request):
     print(json_str)
     if (isinstance(json_str, bytes)):
         json_str = json_str.decode(request.encoding or 'utf-8')
-    report = json.dumps(json.loads(json_str), indent=4, sort_keys=True, separators=(',', ':'))
+    report = json.dumps(json.loads(json_str), indent=4, sort_keys=True,
+                        separators=(',', ':'))
     send_mail(
         'CSP Exception',
         report,
@@ -418,6 +443,7 @@ def email_csp_report(request):
         fail_silently=False,
     )
     return HttpResponse('')
+
 
 # This is a badly-written API call to retrieve the stock
 # level.
@@ -432,7 +458,8 @@ def stocklevel(request):
         raise Http500
     try:
         product_id = int(root.text)
-        quantity = StockLevel.objects.get(product_id=product_id).quantity_available
+        quantity = \
+            StockLevel.objects.get(product_id=product_id).quantity_available
     except:
         raise Http500
     return JsonResponse({'quantity': quantity})
@@ -445,20 +472,23 @@ def stocklevel(request):
 def pagewitherror(request):
     product = Product.objects.get(pk=100)
 
-# Presents a page with two XMLHttpRequest (actually jquery .ajax()) requests for
-# practising CORS headers
+
+# Presents a page with two XMLHttpRequest (actually jquery .ajax()) requests
+# for practising CORS headers
 def corstest(request):
     context = {}
     return render(request, 'coffeeshop/corstest.html', context)
 
-# Presents a page with two XMLHttpRequest (actually jquery .ajax()) requests for
-# practising CORS headers
+
+# Presents a page with two XMLHttpRequest (actually jquery .ajax()) requests
+# for practising CORS headers
 def gallery(request):
     context = {}
     return render(request, 'coffeeshop/gallery.html', context)
 
 ###################################################################
 # REST API
+
 
 # View set demonstrating good REST practice
 class AddressViewSet(viewsets.ModelViewSet):
@@ -470,4 +500,3 @@ class AddressViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         return serializer.save(user=self.request.user)
-

@@ -1,0 +1,13 @@
+django==3.2.7
+django-extensions
+django-templatetags
+django-countries
+djangorestframework
+psycopg2-binary
+sqlalchemy
+django-bootstrap4
+django-loginas
+jupyterlab
+django-cors-headers
+django-csp
+pep8

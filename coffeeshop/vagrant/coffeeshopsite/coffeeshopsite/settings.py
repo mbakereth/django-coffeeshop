@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # usually you wouldn't put this in Git
-#SECRET_KEY = 'kfb=0qyqx2s(5kw2z9x5qow!h(o4qd+egjcgn(66^(0za0-kx('
+# SECRET_KEY = 'kfb=0qyqx2s(5kw2z9x5qow!h(o4qd+egjcgn(66^(0za0-kx('
 SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -50,7 +50,8 @@ INSTALLED_APPS = [
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'DEFAULT_PAGINATION_CLASS':
+        'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
 }
 
@@ -97,10 +98,11 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': 5432,
         'USER': os.environ['DBOWNER'],
-        'PASSWORD': os.environ['DBOWNERPWD'], 
+        'PASSWORD': os.environ['DBOWNERPWD'],
     }
 }
-if 'test' in sys.argv or 'test_coverage' in sys.argv: #Covers regular testing and django-coverage
+# Covers regular testing and django-coverage
+if 'test' in sys.argv or 'test_coverage' in sys.argv:
     DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
 
 # Password validation
@@ -108,16 +110,20 @@ if 'test' in sys.argv or 'test_coverage' in sys.argv: #Covers regular testing an
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
 
@@ -140,9 +146,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
-#STATICFILES_DIRS = [
-#    os.path.join(BASE_DIR, 'coffeeshop/static')
-#]
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'coffeeshop/static')
+# ]
 STATIC_ROOT = '/vagrant/coffeeshopsite/coffeeshop/static'
 
 # Login settings
@@ -179,11 +185,11 @@ SESSION_COOKIE_SECURE = False
 
 # CORS
 CORS_ALLOW_ALL_ORIGINS = True
-#CORS_ALLOWED_ORIGINS = []
+# CORS_ALLOWED_ORIGINS = []
 CORS_ALLOW_CREDENTIALS = True
 
 # CSP
 CSP_DEFAULT_SRC = ("'self'", "*", "'unsafe-inline'")
 CSP_REPORT_URI = "/email_csp_report/"
 
-#CSRF_USE_SESSIONS = True
+# CSRF_USE_SESSIONS = True
