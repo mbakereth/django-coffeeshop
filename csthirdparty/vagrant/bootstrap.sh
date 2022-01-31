@@ -16,6 +16,7 @@ apt-get install -y postgresql postgresql-contrib
 apt-get install -y ssh
 apt install -y net-tools
 apt install -y nmap
+apt install -y pwgen
 
 # set hostname
 hostnamectl set-hostname csthirdparty

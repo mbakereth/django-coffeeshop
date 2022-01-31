@@ -16,6 +16,7 @@ apt-get install -y ssh
 apt-get install -y python3-testresources
 apt install -y net-tools
 apt install -y nmap
+apt install -y pwgen
 
 # Install mailcatcher
 # Mailcatcher is an implementation of SMTP that stores email locally rather than
