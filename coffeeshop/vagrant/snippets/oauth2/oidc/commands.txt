@@ -1,0 +1,17 @@
+Django OIDC Exercise
+--------------------
+
+Step 1. Enter this into the browser:
+http://10.50.0.2/oauth/authorize/?response_type=code&client_id=YOUR_CLIENT_ID&scope=openid&redirect_uri=http://10.50.0.3/oauthcallback
+
+Step 2. Enter this into the terminal:
+curl -X POST \
+  -H "Cache-Control: no-cache" \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  "http://10.50.0.2/oauth/token/" \
+  -d "client_id=YOUR_CLIENT_ID" \
+  -d "client_secret=YOUR_CLIENT_SECRET" \
+  -d "code=YOUR_AUTHORIZATION_CODE" \
+  -d "redirect_uri=http://10.50.0.3/oauthcallback" \
+  -d "grant_type=authorization_code"
+

@@ -11,7 +11,7 @@ import json
 from .models import *
 from .forms import *
 
-
+@login_required
 def index(request):
     html = '''<html>
     <head><title>CS Thirdparty Site</title></head>

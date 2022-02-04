@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'django_countries',
     'corsheaders',
     'csthirdparty',
+    'oidc_rp',
+
 ]
 
 MIDDLEWARE = [
@@ -57,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'oidc_rp.middleware.OIDCRefreshIDTokenMiddleware',
 
 ]
 
@@ -187,3 +190,25 @@ CORS_ALLOW_CREDENTIALS = True
 
 # CSP
 CSP_DEFAULT_SRC = ("'self'", "*", "'unsafe-inline'")
+
+# AUTH CONFIGURATION
+# ------------------------------------------------------------------------------
+
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#login-url
+LOGIN_URL = reverse_lazy('oidc_auth_request')
+
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#authentication-backends
+AUTHENTICATION_BACKENDS = [
+    'oidc_rp.backends.OIDCAuthBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+
+# OIDC RELYING PARTY CONFIGURATION
+# ------------------------------------------------------------------------------
+
+OIDC_RP_PROVIDER_ENDPOINT = 'http://10.50.0.2/oauth/'
+OIDC_RP_CLIENT_ID = 'Dg0paHGPhiPxlC2qWaiu0JtVB32J8QRcTVSMtHwH'
+OIDC_RP_CLIENT_SECRET = 'EfjdnPlJxm4bmCTNuXPsxxcnGsBNEem2FSkOURFnePzmIojUhX0141gIUA8mP2f0KfHkmWAZwbCCpVqAkJE8ibAcguVprLozQAdHHvc6OgPSfc2vFZesNuZ37vSew0uI'
+OIDC_RP_SCOPES = 'openid'
+OIDC_RP_PROVIDER_JWKS_ENDPOINT = 'http://10.50.0.2/oauth/.well-known/jwks.json'
