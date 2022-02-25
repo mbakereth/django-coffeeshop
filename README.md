@@ -159,6 +159,6 @@ vagrant destroy
 
 To bring the VM up again, run
 ```
-vagrant ip
+vagrant up
 ```
 If the VM was not destroyed, it will simply boot again.  If you previously destroyed, it, Vagrant will recreate the VM and boot it.
