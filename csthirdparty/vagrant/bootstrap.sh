@@ -33,6 +33,7 @@ service mailcatcher start
 
 # Install python packages
 sudo pip3 install -r /vagrant/csthirdpartysite/requirements.txt
+sudo pip3 install slowloris
 
 # Install apache config
 rm /etc/apache2/apache2.conf

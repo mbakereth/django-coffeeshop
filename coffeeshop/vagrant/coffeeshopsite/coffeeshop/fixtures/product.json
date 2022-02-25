@@ -4,7 +4,7 @@
         "pk": 1,
         "fields": {
             "name": "Rainforest",
-            "description": "Nutty, earthy flavour.  90% Arabica, 10% Robusto.",
+            "description": "Nutty, earthy flavour.  100% Arabica, single varietal.",
             "unit_price": 7.99
         }
     },
@@ -13,7 +13,7 @@
         "pk": 2,
         "fields": {
             "name": "Monsoon",
-            "description": "Picked after the monsoon.  Slightly oily, dark chocolate flavour.  90% Arabica, 20% Robusto.",
+            "description": "Picked after the monsoon.  Slightly oily, dark chocolate flavour.  100% Arabica single varietal.",
             "unit_price": 8.99
         }
     },
@@ -22,7 +22,7 @@
         "pk": 3,
         "fields": {
             "name": "Milano",
-            "description": "A classic espresso blend.  Rich, dark roasted.  90% Arabica, 10% Robusto.",
+            "description": "A classic espresso blend.  Rich, dark roasted.  90% Arabica, 10% Robusto blend.",
             "unit_price": 7.49
         }
     },
@@ -31,7 +31,7 @@
         "pk": 4,
         "fields": {
             "name": "Java",
-            "description": "A pure Arabica coffee.  Mild, smooth flavour.  100% Arabica.",
+            "description": "A pure Arabica coffee.  Mild, smooth flavour.  100% Arabica blend.",
             "unit_price": 7.49
         }
     }

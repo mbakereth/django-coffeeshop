@@ -11,14 +11,15 @@ import json
 from .models import *
 from .forms import *
 
-@login_required
 def index(request):
     html = '''<html>
     <head><title>CS Thirdparty Site</title></head>
     <body>
         <h1>CS Thirdparty Site</h1>
+        <p><a href="http://10.50.0.2/">Go to Coffeeshop (HTTP)</a></p>
+        <p><a href="https://10.50.0.2/">Go to Coffeeshop (HTTPS)</a></p>
         </body>
-    </html""
+    </html>
     '''
     return HttpResponse(html, content_type="text/html")
 
@@ -29,6 +30,11 @@ def youhavewon(request):
 
     context = {}
     return render(request, 'csthirdparty/youhavewon.html', context)
+
+def iframe(request):
+
+    context = {}
+    return render(request, 'csthirdparty/iframe.html', context)
 
 
 def cookies(request, cookie):

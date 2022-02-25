@@ -8,6 +8,7 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('youhavewon/', views.youhavewon, name='youhavewon'),
+    path('iframe/', views.iframe, name='iframe'),
     path('cookies/<str:cookie>', views.cookies, name='cookies'),
     path('gettest/', views.gettest, name='gettest'),
     path('posttest/', views.posttest, name='posttest'),

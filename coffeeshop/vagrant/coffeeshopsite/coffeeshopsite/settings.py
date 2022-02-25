@@ -180,7 +180,7 @@ os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/account/login'
 SESSION_COOKIE_HTTPONLY = False
-SESSION_COOKIE_SAMESITE = None
+SESSION_COOKIE_SAMESITE = 'Strict'
 SESSION_COOKIE_SECURE = False
 
 # CORS
@@ -193,3 +193,6 @@ CSP_DEFAULT_SRC = ("'self'", "*", "'unsafe-inline'")
 CSP_REPORT_URI = "/email_csp_report/"
 
 # CSRF_USE_SESSIONS = True
+
+# IFRAME projection
+X_FRAME_OPTIONS = 'ALLOW-FROM http://10.50.0.3/'

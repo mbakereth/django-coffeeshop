@@ -35,6 +35,7 @@ cp /vagrant/ssmtp/ssmtp.conf /etc/ssmtp/ssmtp.conf
 
 # Install python packages
 pip3 install -r /vagrant/coffeeshopsite/requirements.txt
+pip3 install slowloris
 
 # set hostname
 hostnamectl set-hostname coffeeshop
@@ -47,6 +48,7 @@ rm /etc/apache2/apache2.conf
 rm /etc/apache2/envvars
 cp /vagrant/apache2/apache2.conf /etc/apache2/
 cp /vagrant/apache2/envvars /etc/apache2/
+a2enmod ssl
 
 # Set up Postgres
 pgvers=12

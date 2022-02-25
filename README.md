@@ -1,14 +1,22 @@
-VMs for Web Application Security Book and Course
-================================
+Web Application Security Practice VMs
+=====================================
 
-This repo contains four VMs for performing hands-on exercises in the Web Application Security Course.  It is not a real coffee shop and is not intended for any purpose other than using during this course.
+**Python Version**
 
-**Warning**: These VMs contain deliberate security vulnerabilities.  Do not use in a productive environment.
+This repo is intended to accompany:
+
+- My upcoming Web Application Security course
+- The Web App Warrior YouTube channel
+- My web application security courses. 
+
+The repo contains two VMs for performing hands-on exercises.  It is not a real coffee shop and is not intended for any purpose other than using during this course.
+
+**Warning**: These VMs contain deliberate security vulnerabilities.  Do not use as-is in a productive environment.
 
 Prerequisites
 -------------
 
-You will need a laptop which can run Virtualbox and Vagrant.  Windows, Mac and Linux should all be able to run these.  Please install tools as per the following instructions and bring your laptop to the course.
+You will need a laptop which can run Virtualbox and Vagrant.  Windows, Mac and Linux should all be able to run these.  Please install tools as per the following instructions.
 
 Install software on your laptop
 -------------------------------
@@ -51,7 +59,7 @@ or
 Build the two VMs
 -----------------
 
-The `djangi-coffeeshop` directory contains two subdirectories: `coffeeshop` and `csthirdparty`.  
+The `django-coffeeshop` directory contains two subdirectories: `coffeeshop` and `csthirdparty`.  
 
 Go to the `vagrant` directory of the `coffeeshop` directory and build the VM using Vagrant:
 
@@ -71,7 +79,7 @@ Now build the second VM:
 
 `vagrant up`
 
-This will build the second web application as a separate VM: `csthirdparty` or `csthirdpartyj`.
+This will build the second web application as a separate VM: `csthirdparty`.
 
 Test SSH to the VMs
 -------------------
@@ -82,13 +90,13 @@ From the vagrant directory (`coffeeshop/django/coffeeshop/vagrant`), try ssh'ing
 
 `vagrant ssh`
 
-`ctrl-d` to disconnect.
+`Ctrl-d` to disconnect.
 
 `cd ../../csthirdparty/vagrant`
 
 `vagrant ssh`
 
-`ctrl-d` to disconnect.
+`Ctrl-d` to disconnect.
 
 Test the VMs' web servers
 -------------------------
@@ -100,14 +108,14 @@ The VMs are started on IP address `10.50.0.2` and `10.50.0.3`.  Visit the web se
 
 The first link should show the Coffee Shop Application.  The second link will show a very simple page to confirm the server is running.
 
-Test Mailcatcher is running
+Test MailCatcher is running
 ---------------------------
 
-As for real applications, the toy coffee shop occasionally needs to send email.  This is simulated with Mailcatcher which is running on each of the four VMs.  
+As for real applications, the toy coffee shop occasionally needs to send email.  This is simulated with MailCatcher which is running on each of the two VMs.  
 
-Mailcatcher is an SMTP implementation that saves emails locally and displays them via a simple web server.  It does not actually send the email.  The From and To addresses can be anything as no external connection is made.
+MailCatcher is an SMTP implementation that saves emails locally and displays them via a simple web server.  It does not actually send the email.  The From and To addresses can be anything as no external connection is made.
 
-The SMTP server is running on port 25 and the web server on port 1080.  Confirm Mailcatcher is running by visiting
+The SMTP server is running on port 25 and the web server on port 1080.  Confirm MailCatcher is running by visiting
 
 - [http://10.50.0.2:1080/](http://10.50.0.2:1080/)
 - [http://10.50.0.3:1080/](http://10.50.0.3:1080/)
@@ -116,6 +124,41 @@ To use the mail server to send email in your code, connect to port 25 as normal.
 
 ### Web Servers
 
-The Django applications are served by wsgi running as an Apache module.  It is started automatically on boot and logs to Apache's log files in `/var/log/apache2`.
+The Django applications are served by Wsgi running as an Apache module.  It is started automatically on boot and logs to Apache's log files in `/var/log/apache2`.
 
+Restarting the Web Server
+-------------------------
 
+If you make changes to the code, you will need to restart Apache from within the VM.  First ssh to it with
+
+```
+cd django-coffeeshop/coffeeshop/vagrant
+vagrant ssh
+```
+or
+```
+cd django-coffeeshop/csthirdparty/vagrant
+vagrant ssh
+```
+Then restart Apache with
+```
+sudo apachectl restart
+```
+
+Shutting Down the VM
+--------------------
+
+From within the VM's vagrant directory (on your host, not inside the VM), run
+```
+vagrant down
+```
+To destroy the VM and deallocate the disk it consumes, run
+```
+vagrant destroy
+```
+
+To bring the VM up again, run
+```
+vagrant ip
+```
+If the VM was not destroyed, it will simply boot again.  If you previously destroyed, it, Vagrant will recreate the VM and boot it.
