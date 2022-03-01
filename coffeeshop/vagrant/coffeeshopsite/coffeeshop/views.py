@@ -297,6 +297,7 @@ def contact(request):
 # SQL injection vulnerabilities.
 # Don't use it in real applications
 @require_http_methods(["POST"])
+@csrf_exempt
 def search(request):
     cart_size = get_cart_size(request.user)
     error_msg = ''
@@ -306,11 +307,12 @@ def search(request):
     if (error_msg == ''):
         search_text = request.POST['search']
         with connection.cursor() as cursor:
-            sql = '''SELECT id, name, description, unit_price
-                       FROM coffeeshop_product
-                      WHERE (LOWER(name) like '%{}%'
-                             or LOWER(description) like '%{}%')
-                  '''.format(search_text.lower(), search_text.lower())
+            template = "SELECT id, name, description, unit_price" + \
+                  "    FROM coffeeshop_product" + \
+                  "   WHERE (LOWER(name) like '%{}%'" + \
+                  "          or LOWER(description) like '%{}%') " 
+            sql = template.format(search_text.lower(), search_text.lower())
+            print(template)
             print(sql)
             products = []
             try:
