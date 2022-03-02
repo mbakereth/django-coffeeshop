@@ -1,0 +1,63 @@
+# Rule name, must be unique
+name: Admin login
+
+# Alert on x events in y seconds
+type: any
+
+# A list of elasticsearch filters used for find events
+# These filters are joined with AND and nested in a filtered query
+# For more info: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl.html
+filter:
+- term:
+    type: "django_login"
+- term:
+    user.identity: admin
+- term:
+    action: login
+
+index: logstash-*
+
+# When the attacker continues, send a new alert after x minutes
+realert:
+  minutes: 1
+
+query_key:
+  - source.address
+
+include:
+  - timestamp
+  - host
+  - user.identity
+  - source.address
+  - status
+
+include_match_in_root: true
+
+alert_subject: "Admin login on <{}>"
+alert_subject_args:
+  - host
+
+alert_text: |-
+  Login as {} on {} from {} {}
+alert_text_args:
+  - user.identity
+  - host
+  - source.address
+  - status
+
+# The alert is use when a match is found
+alert:
+  - "email"
+
+email:
+  - "ops@coffeeshop.com"
+
+from_addr: "admin@coffeeshop.com"
+smtp_host: "localhost"
+smtp_port: 25
+smtp_ssl: false
+
+# Alert body only cointains a title and text
+alert_text_type: alert_text_only
+
+

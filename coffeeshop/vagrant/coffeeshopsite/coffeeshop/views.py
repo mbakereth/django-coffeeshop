@@ -22,6 +22,7 @@ import pathlib
 import os
 import json
 import xml.etree.ElementTree as ET
+import logging
 
 import coffeeshopsite.settings
 from .models import *
@@ -54,10 +55,8 @@ def index(request):
 
 
 def product(request, id):
-    print("Product", id)
     try:
         product = Product.objects.get(pk=id)
-        print(product)
     except Exception as e:
         raise Http404
     cart_size = get_cart_size(request.user)
@@ -110,6 +109,7 @@ def orders(request):
 @login_required
 @require_http_methods(["POST"])
 def addtocart(request):
+    log = logging.getLogger('django')
     error_msg = ""
     product_id = None
     product = None
@@ -121,7 +121,7 @@ def addtocart(request):
             product_id = int(request.POST['id'])
             product = Product.objects.get(id=product_id)
         except Exception as e:
-            print(e)
+            log.error(e)
             error_msg = "Product not found"
     quantity = 1
     if ('qty' in request.POST):
@@ -130,7 +130,7 @@ def addtocart(request):
             if (quantity < 1):
                 error_msg = "Invalid quantity"
         except Exception as e:
-            print(e)
+            log.error(e)
             error_msg = "Invalid quantity"
     if (error_msg == ""):
         try:
@@ -155,7 +155,7 @@ def addtocart(request):
                 cart_item.quantity += quantity
             cart_item.save()
         except Exception as e:
-            print(e)
+            log.error(e)
             error_msg = "Can't add item to cart"
 
     if (error_msg == ""):
@@ -169,6 +169,7 @@ def addtocart(request):
 @login_required
 @require_http_methods(["POST"])
 def updatecart(request):
+    log = logging.getLogger('django')
     error_msg = ""
     product_id = None
     product = None
@@ -180,7 +181,7 @@ def updatecart(request):
             product_id = int(request.POST['id'])
             product = Product.objects.get(id=product_id)
         except Exception as e:
-            print(e)
+            log.error(e)
             error_msg = "Product not found"
     quantity = 1
     if ('qty' in request.POST):
@@ -190,7 +191,7 @@ def updatecart(request):
             if (quantity < 0):
                 error_msg = "Invalid quantity"
         except Exception as e:
-            print(e)
+            log.error(e)
             error_msg = "Invalid quantity"
     if (error_msg == ""):
         try:
@@ -201,7 +202,7 @@ def updatecart(request):
             else:
                 error_msg = "Cart is empty"
         except Exception as e:
-            print(e)
+            log.error(e)
             error_msg = "Couldn't fetch cart"
 
     if (error_msg == ""):
@@ -213,7 +214,7 @@ def updatecart(request):
             else:
                 cart_item = cart_items.first()
         except Exception as e:
-            print(e)
+            log.error(e)
             error_msg = "Item not found in cart"
 
     if (error_msg == ""):
@@ -234,6 +235,7 @@ def updatecart(request):
 @login_required
 @require_http_methods(["POST"])
 def placeorder(request):
+    log = logging.getLogger('django')
     error_msg = ""
     cart_size = 0
     try:
@@ -244,7 +246,7 @@ def placeorder(request):
         else:
             error_msg = "Cart is empty"
     except Exception as e:
-        print(e)
+        log.error(e)
         error_msg = "Couldn't fetch cart"
     if (error_msg == ""):
         order = Order(user_id=request.user.id, order_date=datetime.now())
@@ -271,6 +273,7 @@ def placeorder(request):
 @login_required
 @require_http_methods(["GET", "POST"])
 def contact(request):
+    log = logging.getLogger('django')
     cart_size = get_cart_size(request.user)
     error_msg = ''
     context = {'cart_size': cart_size}
@@ -284,7 +287,7 @@ def contact(request):
         cmd = ' printf "From: ' + request.user.email + \
             '\nSubject: CoffeeShop User Contact\n\n' + body + \
             '" | ssmtp contact@coffeeshop.com'
-        print(cmd)
+        log.info("Command: " + cmd)
         os.system(cmd)
         context = {'cart_size': cart_size}
         return render(request, 'coffeeshop/emailsent.html', context)
@@ -299,6 +302,8 @@ def contact(request):
 @require_http_methods(["POST"])
 @csrf_exempt
 def search(request):
+    log = logging.getLogger('django')
+
     cart_size = get_cart_size(request.user)
     error_msg = ''
     if ('search' not in request.POST):
@@ -308,12 +313,11 @@ def search(request):
         search_text = request.POST['search']
         with connection.cursor() as cursor:
             template = "SELECT id, name, description, unit_price" + \
-                  "    FROM coffeeshop_product" + \
-                  "   WHERE (LOWER(name) like '%{}%'" + \
-                  "          or LOWER(description) like '%{}%') " 
+                     "    FROM coffeeshop_product" + \
+                     "   WHERE (LOWER(name) like '%{}%'" + \
+                     "          or LOWER(description) like '%{}%') " 
             sql = template.format(search_text.lower(), search_text.lower())
-            print(template)
-            print(sql)
+            log.info("Search: " + sql)
             products = []
             try:
                 cursor.execute(sql)
@@ -324,7 +328,8 @@ def search(request):
                                       unit_price=unit_price)
                     products.append(product)
             except Exception as e:
-                print(e)
+                log.error("Search: " + sql)
+
     context = {"products": products, "cart_size": cart_size,
                "header": 'Search'}
     return render(request, 'coffeeshop/index.html', context)
@@ -350,6 +355,8 @@ def addcomment(request):
 @login_required
 @require_http_methods(["POST"])
 def delcomment(request):
+    log = logging.getLogger('django')
+
     form = DelCommentForm(request.POST)
     if (form.is_valid()):
         id = form.cleaned_data['id']
@@ -360,7 +367,7 @@ def delcomment(request):
         product_id = comment.product_id
         next_url = "/product/" + str(product_id)
     except Exception as e:
-        print(e)
+        log.error(e)
         raise Http404
     if (comment.author == request.user):
         comment.delete()
@@ -373,20 +380,19 @@ def delcomment(request):
 @require_http_methods(["GET", "POST"])
 @csrf_exempt  # this is a bad idea - it is to demonstrate a vulnerability only
 def changeemail(request):
+    log = logging.getLogger('django')
     cart_size = get_cart_size(request.user)
-    print("Change email")
     if (request.method == "GET"):
         context = {"cart_size": cart_size}
         return render(request, 'coffeeshop/changeemail.html', context)
 
     error_msg = ""
     form = ChangeEmailForm(request.POST)
-    print(form)
     if (form.is_valid()):
         old_email = form.cleaned_data['old_email']
         new_email = form.cleaned_data['new_email']
         confirm_email = form.cleaned_data['confirm_email']
-        print(old_email, new_email, confirm_email)
+        log.info("Email:", old_email, new_email, confirm_email)
         if (new_email != confirm_email):
             error_msg = "New emails do not match"
         elif (old_email != request.user.email):
@@ -396,11 +402,10 @@ def changeemail(request):
 
     if (error_msg == ""):
         try:
-            print("Set to " + new_email)
             request.user.email = new_email
             request.user.save()
         except Exception as e:
-            print(e)
+            log.error(e)
             raise Http404
 
     if (error_msg == ""):
@@ -431,8 +436,9 @@ def testcsrftoken(request):
 # CSP report handler - send as email
 @csrf_exempt
 def email_csp_report(request):
+    log = logging.getLogger('django')
     json_str = request.body
-    print(json_str)
+    log.info("CSP report " + json_str)
     if (isinstance(json_str, bytes)):
         json_str = json_str.decode(request.encoding or 'utf-8')
     report = json.dumps(json.loads(json_str), indent=4, sort_keys=True,
