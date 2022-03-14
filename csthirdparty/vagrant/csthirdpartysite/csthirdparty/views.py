@@ -39,7 +39,6 @@ def iframe(request):
 
 def cookies(request, cookie):
     try:
-        print("Product", cookie)
         cookies = Cookies(cookies=cookie, add_date=datetime.now())
         cookies.save()
     except Exception as e:
@@ -60,7 +59,7 @@ def gettest(request):
 @require_http_methods(["GET"])
 def credtest(request):
     response = JsonResponse({'status': 'ok', 'cookies': str(request.COOKIES)})
-    response.set_cookie('corstest', 'ivebeenset')
+    response.set_cookie('corstest', 'ivebeenset', samesite='None')
     return response
 
 

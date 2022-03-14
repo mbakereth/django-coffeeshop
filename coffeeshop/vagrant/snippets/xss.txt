@@ -1,5 +1,5 @@
-Solution to Exercise "XSS to Send Cookies to an Attacker"
----------------------------------------------------------
+Code for exercise "XSS to Send Cookies to an Attacker"
+------------------------------------------------------
 
 Enter the following as the comment
 Nice coffee
@@ -16,8 +16,8 @@ To clean up
 delete from csthirdparty_cookies;
 
 
-Solution to Exercise Fixing the XSS Vulnerability
--------------------------------------------------
+Code changes for exercise Fixing the XSS Vulnerability
+------------------------------------------------------
 
 1. In settings.py, change
    SESSION_COOKIE_HTTPONLY = False

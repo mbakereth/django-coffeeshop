@@ -1,6 +1,6 @@
 # This is the folder that contains the rule yaml files
 # Any .yaml file will be loaded as a rule
-rules_folder: /home/vagrant/elastalert/rules
+rules_folder: /vagrant/elk/elastalert/rules
 
 # How often ElastAlert will query Elasticsearch
 # The unit can be anything from weeks to seconds

@@ -13,7 +13,10 @@
 
             <h2>An Error Occurred</h2>
 
-            <p>{{ error_msg }}</p>
+            <!-- NOTE: don't use safe like this in real applications.  It is vulmerable
+                to XSS attacks.  The only reason we have done so here is to demonstrate
+                the vulnerability -->
+            <p>{{ error_msg | safe }}</p>
 
             <p>Please go back and try again.</p>
 

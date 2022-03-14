@@ -18,6 +18,8 @@ Fixed version of search()
 
 @require_http_methods(["POST"])
 def search(request):
+    log = logging.getLogger('django')
+
     cart_size = get_cart_size(request.user)
     error_msg = ''
     if ('search' not in request.POST):
@@ -30,7 +32,7 @@ def search(request):
                        FROM coffeeshop_product
                       WHERE (LOWER(name) like %s or LOWER(description) like %s)
                   '''
-            print(sql)
+            log.info("Search: " + sql)
             products = []
             try:
                 search_term = '%' + search_text.lower().replace('%', '%%') + '%'

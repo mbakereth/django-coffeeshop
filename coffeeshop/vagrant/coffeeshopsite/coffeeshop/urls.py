@@ -19,6 +19,7 @@ urlpatterns = [
     path('delcomment/', views.delcomment, name='delcomment'),
     path('pagewitherror/', views.pagewitherror, name='pagewitherror'),
     path('product/<int:id>', views.product, name='product'),
+    path('prod/', views.vuln_product, name='vuln_product'),
     path('myaccount', views.myaccount, name='myaccount'),
     path('changeemail', views.changeemail, name='changeemail'),
     path('stocklevel/', views.stocklevel, name='stocklevel'),

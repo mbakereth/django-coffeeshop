@@ -65,6 +65,27 @@ def product(request, id):
                'comments': comments}
     return render(request, 'coffeeshop/product.html', context)
 
+# Don't use a function like this in real applications.  It is vulnerable
+# to XSS attacks.  It's only purpose here is to demonstrate the vulnerability.
+def vuln_product(request):
+    if ('id' not in request.GET):
+        context = {"error_msg": 'No product id given'}
+        return render(request, 'coffeeshop/error.html', context)
+    else:
+        id = request.GET['id']
+        try:
+            product = Product.objects.get(pk=id)
+        except Exception as e:
+            print(request.GET['id'], 'XXX', str(id))
+            context = {"error_msg": 'Product ' + str(id) + ' not found.'}
+            return render(request, 'coffeeshop/error.html', context)
+
+    cart_size = get_cart_size(request.user)
+    comments = Comment.objects.filter(product_id=id)
+    context = {"product": product, "cart_size": cart_size,
+               'comments': comments}
+    return render(request, 'coffeeshop/product.html', context)
+
 
 def myaccount(request):
     cart_size = get_cart_size(request.user)
@@ -305,12 +326,11 @@ def search(request):
     log = logging.getLogger('django')
 
     cart_size = get_cart_size(request.user)
-    error_msg = ''
-    if ('search' not in request.POST):
-        error_msg = 'Please enter a search term'
-
-    if (error_msg == ''):
+    search_term = None
+    if ('search' in request.POST):
         search_text = request.POST['search']
+
+    if (search_text is not None and search_text != ''):
         with connection.cursor() as cursor:
             template = "SELECT id, name, description, unit_price" + \
                      "    FROM coffeeshop_product" + \
@@ -328,7 +348,7 @@ def search(request):
                                       unit_price=unit_price)
                     products.append(product)
             except Exception as e:
-                log.error("Search: " + sql)
+                log.error("Error in search: " + sql)
 
     context = {"products": products, "cart_size": cart_size,
                "header": 'Search'}
