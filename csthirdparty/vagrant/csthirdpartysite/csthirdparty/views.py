@@ -31,6 +31,16 @@ def youhavewon(request):
     context = {}
     return render(request, 'csthirdparty/youhavewon.html', context)
 
+# this version is for browsers that implement the new cookie recommendation of
+# defaulting SameSite to None and requiring Secure.  For these browsers, the above
+# view will not work.
+@require_http_methods(["GET"])
+@csrf_exempt
+def youhavewonssl(request):
+
+    context = {}
+    return render(request, 'csthirdparty/youhavewonssl.html', context)
+
 def iframe(request):
 
     context = {}
