@@ -28,7 +28,7 @@ adduser logstash adm
 # install Kibana
 apt-get install kibana
 
-# Configure Logsearch
+# Configure Elasticsearch
 # this reduces the number of shards as the default number for production is higher 
 # than we need for development
 (cd /vagrant/elk ; curl -X PUT http://localhost:9200/_template/defaults -H 'Content-Type:application/json' -d @index_template.json)

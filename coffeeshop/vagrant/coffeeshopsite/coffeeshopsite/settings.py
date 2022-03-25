@@ -98,8 +98,7 @@ DATABASES = {
         'NAME': 'coffeeshop',
         'HOST': 'localhost',
         'PORT': 5432,
-        #'USER': os.environ['DBOWNER'],
-        'USER': 'postgres',
+        'USER': os.environ['DBOWNER'],
         'PASSWORD': os.environ['DBOWNERPWD'],
     }
 }

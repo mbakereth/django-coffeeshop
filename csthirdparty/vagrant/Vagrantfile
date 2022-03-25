@@ -9,8 +9,28 @@ Vagrant.configure("2") do |config|
    config.vm.provision "shell", run: "always", path: "reboot-provision.sh"
    config.vm.network "private_network", ip: "10.50.0.3"
    #config.vm.network "public_network", bridge: "en0: Wi-Fi (AirPort)"
+
+   # The default provider is Virtualbox.  This works on Windows, Linux and Mac Intel
+   # but not Mac M1
    config.vm.provider "virtualbox" do |vb|
      vb.name = "csthirdparty"
      vb.memory = "2048"
     vb.customize ["modifyvm", :id, "--memory", "2048"]
-   end end
+   end
+
+   # This uses Docker as an alternative backend. It is the only option for Mac M1
+   # but it also works for the other architectures
+   config.vm.provider :docker do |docker, override|
+     config.vm.hostname = "csthirdparty"
+     override.vm.box = nil
+     docker.image = "mbakereth/vagrant-provider-ubuntu:focal"
+     docker.remains_running = true
+     docker.has_ssh = true
+     docker.privileged = true
+     docker.volumes = ["/sys/fs/cgroup:/sys/fs/cgroup:rw"]
+     docker.create_args = ["--cgroupns=host"]
+     # Uncomment to force arm64 for testing images
+     #docker.create_args = ['--platform=linux/arm64']
+   end
+
+end

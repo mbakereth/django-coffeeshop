@@ -1,5 +1,8 @@
 #!/bin/bash
 
+mkdir -p /run/kibana
+chown kibana.kibana /run/kibana
+
 systemctl enable elasticsearch.service
 systemctl start elasticsearch.service
 
