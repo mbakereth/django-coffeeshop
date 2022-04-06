@@ -10,7 +10,7 @@ echo ". /secrets/config.env" >> /home/vagrant/.bashrc
 # Install packages
 apt-get update -y
 apt-get install -y apache2 
-apt-get install -y python3-pip
+apt-get install -y python3-pip python3.8-venv
 apt-get install -y libapache2-mod-wsgi-py3
 apt-get install -y postgresql postgresql-contrib 
 apt-get install -y ssh
