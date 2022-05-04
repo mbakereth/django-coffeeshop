@@ -14,7 +14,7 @@ apt-get install -y libapache2-mod-wsgi-py3
 apt-get install -y postgresql postgresql-contrib 
 apt-get install -y ssh telnet
 apt-get install -y python3-testresources
-apt install -y net-tools
+apt install -y net-tools iputils-ifconfig
 apt install -y nmap
 apt install -y pwgen
 
