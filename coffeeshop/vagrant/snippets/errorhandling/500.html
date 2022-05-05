@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load i18n static %}
+{% static "" as baseUrl %}
+
+{% block title %}<title>Coffee Shop</title>{% endblock %}
+{% block header %}
+{% endblock %}
+{% block content %}
+
+<div class="container" style="margin-top:30px">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <h2>Unknown Error</h2>
+
+            <p>We're sorry, something unexpected occurred.  Please go back or visit 
+                <a href="{% url 'index' %}">our main page</a>.
+                
+        </div> <!-- col-sm-12 -->
+
+    </div> <! -- row -->
+    
+</div> <! -- container -->
+{% endblock %}
+
+{% block endjs %}
+{% endblock %}

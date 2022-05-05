@@ -15,7 +15,7 @@ apt-get install -y postgresql postgresql-contrib
 apt-get install -y ssh telnet
 apt-get install -y python3-testresources
 apt install -y net-tools iputils-ifconfig
-apt install -y nmap
+apt install -y nmap ufw
 apt install -y pwgen
 
 # Install mailcatcher
