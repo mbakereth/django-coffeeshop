@@ -458,7 +458,7 @@ def testcsrftoken(request):
 def email_csp_report(request):
     log = logging.getLogger('django')
     json_str = request.body
-    log.info("CSP report " + json_str)
+    log.info("CSP report " + str(json_str))
     if (isinstance(json_str, bytes)):
         json_str = json_str.decode(request.encoding or 'utf-8')
     report = json.dumps(json.loads(json_str), indent=4, sort_keys=True,

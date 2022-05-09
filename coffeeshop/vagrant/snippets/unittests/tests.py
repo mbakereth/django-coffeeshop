@@ -24,5 +24,5 @@ class SimpleTest(TestCase):
         request.user = AnonymousUser()
         response = myview(request)
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'], '/accounts/login/?next=/basket/')
+        self.assertEqual(response['location'], '/account/login/?next=/basket/')
 

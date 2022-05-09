@@ -16,7 +16,7 @@ apt-get install -y postgresql postgresql-contrib
 apt-get install -y ssh telnet
 apt install -y net-tools iputils-ifconfig
 
-apt install -y nmap ufw
+apt install -y nmap ufw netcat
 apt install -y pwgen
 
 # set hostname

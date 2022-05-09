@@ -13,9 +13,9 @@
         var enteredemail = document.getElementById('enteredemail').value; 
         var form = document.getElementById('changeemailform'); 
         document.getElementById('old_email').setAttribute('value', enteredemail); 
-        //form.submit()
+        form.submit()
 
-        $.ajax({
+        /*$.ajax({
             type: "POST",
                url: "http://10.50.0.2/changeemail",
                data: $('#changeemailform').serialize(), // serializes the form's elements.
@@ -26,7 +26,7 @@
                    alert("Thank you.  We will contact you shortly") 
                },
                crossDomain: true
-             });
+             });*/
     }
 
     function getcsrftoken() {

@@ -27,8 +27,6 @@ SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-DEBUG = False
-ADMINS = [("Coffeeshop Admin", "admin@coffeeshop.com")]
 
 ALLOWED_HOSTS = ['*']
 
@@ -191,7 +189,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 
 # CSP
-CSP_DEFAULT_SRC = ("'self'", "*", "'unsafe-inline'")
+CSP_DEFAULT_SRC = ("'self'", "*", "data:", "'unsafe-inline'")
 CSP_REPORT_URI = "/email_csp_report/"
 
 # CSRF_USE_SESSIONS = True

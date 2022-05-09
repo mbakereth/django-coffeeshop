@@ -8,10 +8,14 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="/static/favicon.ico">
-     <script src="{% static 'coffeeshop/js/jquery-3.5.1.min.js' %}"></script>
-     <link rel="stylesheet" href="{% static 'coffeeshop/bootstrap/4.1.3/css/bootstrap.min.css' %}"/>
-     <script src="{% static 'coffeeshop/bootstrap/4.1.3/js/bootstrap.min.js' %}"></script>
-     <link rel="stylesheet" href="{% static 'coffeeshop/css/coffeeshop.css' %}"/>
+    {% block stylesheets %}
+    <link rel="stylesheet" href="{% static 'coffeeshop/bootstrap/4.1.3/css/bootstrap.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'coffeeshop/css/coffeeshop.css' %}"/>
+    {% endblock %}
+    {% block scripts %}
+    <script src="{% static 'coffeeshop/js/jquery-3.5.1.min.js' %}"></script>
+    <script src="{% static 'coffeeshop/bootstrap/4.1.3/js/bootstrap.min.js' %}"></script>
+    {% endblock %}
     {% block header %}{% endblock %}
 </head>
 
