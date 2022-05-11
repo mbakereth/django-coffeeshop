@@ -14,7 +14,7 @@ apt-get install -y python3-pip python3.8-venv
 apt-get install -y libapache2-mod-wsgi-py3
 apt-get install -y postgresql postgresql-contrib 
 apt-get install -y ssh telnet
-apt install -y net-tools iputils-ifconfig
+apt install -y net-tools iputils-ifconfig git
 
 apt install -y nmap ufw netcat
 apt install -y pwgen
