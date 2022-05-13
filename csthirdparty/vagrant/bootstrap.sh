@@ -78,3 +78,5 @@ systemctl restart apache2
 
 # Add other users
 adduser --disabled-password --gecos "" dbuser
+usermod -a -G www-data vagrant
+

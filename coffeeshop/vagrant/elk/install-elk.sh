@@ -50,3 +50,7 @@ echo 'server.host: "0.0.0.0"' >> /etc/kibana/kibana.yml
 # Start kibana
 sudo systemctl enable kibana.service && sudo systemctl restart kibana.service
 
+# There seems to be an intermittent bug in logrotate preventing Apache from rotating logs propery.  This should fix it
+invoke-rc.d apache rotate >/dev/null 2>&1
+service apache2 restart
+
