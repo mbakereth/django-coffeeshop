@@ -18,6 +18,7 @@ apt install -y net-tools iputils-ifconfig git
 
 apt install -y nmap ufw netcat
 apt install -y pwgen
+apt install -y libpq-dev
 
 # set hostname
 hostnamectl set-hostname csthirdparty
