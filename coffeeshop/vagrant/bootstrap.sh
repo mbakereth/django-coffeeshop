@@ -17,6 +17,7 @@ apt-get install -y python3-testresources
 apt install -y net-tools iputils-ifconfig git
 apt install -y nmap ufw
 apt install -y pwgen
+apt install -y libpq-dev
 
 # Install mailcatcher
 # Mailcatcher is an implementation of SMTP that stores email locally rather than
