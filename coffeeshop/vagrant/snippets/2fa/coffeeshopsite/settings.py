@@ -197,20 +197,6 @@ CORS_ALLOW_CREDENTIALS = True
 CSP_DEFAULT_SRC = ("'self'", "*", "'unsafe-inline'")
 CSP_REPORT_URI = "/email_csp_report/"
 
-# OAuth2
-with open("/secrets/oidc.key", "r") as f:
-    OIDC_RSA_PRIVATE_KEY = f.read()
-OAUTH2_PROVIDER = {
-    "OAUTH2_VALIDATOR_CLASS": "coffeeshop.oauth_validator.CoffeeShopOAuth2Validator",
-    "OIDC_ENABLED": True, # set to True when providing OIDC login
-    "OIDC_RSA_PRIVATE_KEY": OIDC_RSA_PRIVATE_KEY,
-    "SCOPES": {
-        "read": "Read scope",
-        "write": "Write scope",
-        "openid": "OpenID Connect scope",
-    }
-}
-
 #CSRF_USE_SESSIONS = True
 
 
