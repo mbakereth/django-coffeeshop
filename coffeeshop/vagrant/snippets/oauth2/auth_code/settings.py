@@ -195,3 +195,9 @@ CSP_DEFAULT_SRC = ("'self'", "*", "'unsafe-inline'")
 CSP_REPORT_URI = "/email_csp_report/"
 
 # CSRF_USE_SESSIONS = True
+
+# OAuth Settings
+OAUTH2_PROVIDER = {
+    "PKCE_REQUIRED": False
+}
+

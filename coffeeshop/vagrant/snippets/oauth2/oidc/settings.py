@@ -200,6 +200,7 @@ CSP_REPORT_URI = "/email_csp_report/"
 with open("/secrets/oidc.key", "r") as f:
     OIDC_RSA_PRIVATE_KEY = f.read()
     OAUTH2_PROVIDER = {
+        "PKCE_REQUIRED": False,
         "OAUTH2_VALIDATOR_CLASS": "coffeeshop.oauth_validator.CoffeeShopOAuth2Validator",
         "OIDC_ENABLED": True, # set to True when providing OIDC login
         "OIDC_RSA_PRIVATE_KEY": OIDC_RSA_PRIVATE_KEY,
