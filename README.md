@@ -3,7 +3,7 @@ Web Application Security Practice VMs
 
 This repo is intended to accompany:
 
-- My upcoming Web Application Security course
+- My upcoming Web Application Security book
 - My web application security courses. 
 
 The repo contains two VMs for performing hands-on exercises.  It is not a real coffee shop and is not intended for any purpose other than using with the book or courses.
@@ -167,6 +167,7 @@ Shutting Down the VM
 --------------------
 
 From within the VM's vagrant directory (on your host, not inside the VM), run
+
 ```
 vagrant down
 ```
@@ -182,3 +183,10 @@ To bring the VM up again, run
 vagrant up
 ```
 If the VM was not destroyed, it will simply boot again.  If you previously destroyed, it, Vagrant will recreate the VM and boot it.
+
+You're Ready!
+-------------
+
+If you're doing one of the web app security courses, you now have eveything you need to start the course.
+
+If you're following the book, you are now ready to start the hands-on exercises.
