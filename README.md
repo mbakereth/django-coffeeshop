@@ -83,17 +83,25 @@ Go to the `vagrant` directory of the `coffeeshop` directory and build the VM usi
 
 `cd django-coffeeshop/coffeeshop/vagrant`
 
-then
+If you don't have an M1 Mac, build the machine with 
 
 `vagrant up`
 
-This should build a VM called `coffeeshop`.  It will create the VM in VirtualBox, install Ubuntu, all the necessary packages and start an Apache web server running the toy application.
+If you do have an M1 Mac, use the following command instead:
+
+`vagrant up --provider docker`
+
+This should build a VM called `coffeeshop`.  It will create the VM in VirtualBox (or a Docker container on Mac M1, configured to look and feel like a VM), install Ubuntu, all the necessary packages and start an Apache web server running the toy application.
 
 Now build the second VM:
 
 `cd ../../csthirdparty/vagrant`
 
 `vagrant up`
+
+or, on Mac M1, 
+
+`vagrant up --provider docker`
 
 This will build the second web application as a separate VM: `csthirdparty`.
 
