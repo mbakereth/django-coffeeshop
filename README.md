@@ -1,6 +1,14 @@
 Web Application Security Practice VMs
 =====================================
 
+Read First!
+-----------
+
+If you're following the Web Application Security book, read the file **RELEASENOTES.md** for changes that have happened since the book was written.  Browser features may have changed since the book was written, as well as third-party software components such as Virtualbox.
+
+About this repo
+---------------
+
 This repo is intended to accompany:
 
 - My upcoming Web Application Security book
