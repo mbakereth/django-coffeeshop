@@ -14,7 +14,7 @@ Changes Since Book Publication
 
 ### Vagrant issue with IP address outside allowed range
 
-Since the book's writing, Virtualbox no longer allows the IP addresses our VMs run on by default.  This issue affects Macs with Intel hardware.  If you see this error message:
+Since the book's writing, Virtualbox no longer allows the IP addresses our VMs run on by default.  This issue affects Linux and Macs with Intel hardware.  If you see this error message:
 
 ```
 The IP address configured for the host-only network is not within the
