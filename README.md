@@ -6,6 +6,11 @@ Read First!
 
 If you're following the Web Application Security book, read the file **RELEASENOTES.md** for changes that have happened since the book was written.  Browser features may have changed since the book was written, as well as third-party software components such as Virtualbox.
 
+Tags
+----
+
+v1.0 corresponds to the software as-of the date of publication, with no amendments.
+
 About this repo
 ---------------
 
