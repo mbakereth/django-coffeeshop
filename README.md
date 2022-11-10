@@ -1,27 +1,58 @@
 Web Application Security Practice VMs
 =====================================
 
-**Python Version**
+Read First!
+-----------
+
+If you're following the Web Application Security book, read the file **RELEASENOTES.md** for changes that have happened since the book was written.  Browser features may have changed since the book was written, as well as third-party software components such as Virtualbox.
+
+Tags
+----
+
+v1.0 corresponds to the software as-of the date of publication, with no amendments.
+
+About this repo
+---------------
 
 This repo is intended to accompany:
 
-- My upcoming Web Application Security course
-- The Web App Warrior YouTube channel
+- My upcoming Web Application Security book
 - My web application security courses. 
 
-The repo contains two VMs for performing hands-on exercises.  It is not a real coffee shop and is not intended for any purpose other than using during this course.
+The repo contains two VMs for performing hands-on exercises.  It is not a real coffee shop and is not intended for any purpose other than using with the book or courses.
 
 **Warning**: These VMs contain deliberate security vulnerabilities.  Do not use as-is in a productive environment.
 
 Prerequisites
 -------------
 
-You will need a laptop which can run Virtualbox and Vagrant.  Windows, Mac and Linux should all be able to run these.  Please install tools as per the following instructions.
+You will need a laptop which can run Virtualbox and Vagrant.  Windows, Mac and Linux should all be able to run these.  On M1 Macs, at the time of writing, Virtualbox does not work, but you can use Docker instead.  Please install tools as per the following instructions.
 
 Install software on your laptop
 -------------------------------
 
-### VirtualBox
+### Docker (Mac M1 Only)
+
+Visit [https://www.docker.com/get-started/](https://www.docker.com/get-started/) and follow the link to install Docker Desktop for your architecture.
+
+Launch Docker Desktop and click on the preferences button (top of the window, to the right of the window title). Click on *Resources*, slide *Memory* up to 4GB and click *Apply & Restart* (the unit on ElasticSearch in particular needs this much memory).
+
+### Xcode and Docker Mac Connect (Mac M1 Only)
+
+We need Docker Mac Connect to provide IP addresses to our Docker containers so we can access them from web browsers.  
+
+Go to the Apple App Store and search for Xcode.  Click the *Get* button on the search result to install it.
+
+If you haven't already, install the Homebrew package manager by visiting [https://brew.sh](https://brew.sh) and following the instructions there.
+
+Install Docker Mac Connect with
+
+```
+brew install chipmk/tap/docker-mac-net-connect
+sudo brew services start chipmk/tap/docker-mac-net-connect
+```
+
+### VirtualBox (Not Mac M1)
 
 VirtualBox provides the virtualisation for the VMs needed for the course.
 
@@ -65,19 +96,25 @@ Go to the `vagrant` directory of the `coffeeshop` directory and build the VM usi
 
 `cd django-coffeeshop/coffeeshop/vagrant`
 
-then
+If you don't have an M1 Mac, build the machine with 
 
 `vagrant up`
 
-This should build a VM called `coffeeshop`.  It will create the VM in VirtualBox, install Ubuntu, all the necessary packages and start an Apache web server running the toy application.
+If you do have an M1 Mac, use the following command instead:
 
-For the Spring version, you may see some errors connecting to port 8180.  You can ignore these.
+`vagrant up --provider docker`
+
+This should build a VM called `coffeeshop`.  It will create the VM in VirtualBox (or a Docker container on Mac M1, configured to look and feel like a VM), install Ubuntu, all the necessary packages and start an Apache web server running the toy application.
 
 Now build the second VM:
 
 `cd ../../csthirdparty/vagrant`
 
 `vagrant up`
+
+or, on Mac M1, 
+
+`vagrant up --provider docker`
 
 This will build the second web application as a separate VM: `csthirdparty`.
 
@@ -136,11 +173,13 @@ cd django-coffeeshop/coffeeshop/vagrant
 vagrant ssh
 ```
 or
+
 ```
 cd django-coffeeshop/csthirdparty/vagrant
 vagrant ssh
 ```
 Then restart Apache with
+
 ```
 sudo apachectl restart
 ```
@@ -149,16 +188,26 @@ Shutting Down the VM
 --------------------
 
 From within the VM's vagrant directory (on your host, not inside the VM), run
+
 ```
 vagrant down
 ```
 To destroy the VM and deallocate the disk it consumes, run
+
 ```
 vagrant destroy
 ```
 
 To bring the VM up again, run
+
 ```
 vagrant up
 ```
 If the VM was not destroyed, it will simply boot again.  If you previously destroyed, it, Vagrant will recreate the VM and boot it.
+
+You're Ready!
+-------------
+
+If you're doing one of the web app security courses, you now have eveything you need to start the course.
+
+If you're following the book, you are now ready to start the hands-on exercises.
