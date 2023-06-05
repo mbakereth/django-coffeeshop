@@ -20,6 +20,13 @@ apt install -y nmap ufw netcat
 apt install -y pwgen
 apt install -y libpq-dev
 
+# Fix for a problem with pyOpenSSL
+cd /tmp
+apt remove -y python3-pip 
+wget https://bootstrap.pypa.io/get-pip.py
+python3 get-pip.py
+hash -r
+
 # set hostname
 hostnamectl set-hostname csthirdparty
 
@@ -72,9 +79,9 @@ sudo -u postgres psql -c "CREATE USER $DBOWNER WITH PASSWORD '$DBOWNERPWD';"
 sudo -u postgres psql -c "ALTER ROLE $DBOWNER SET client_encoding TO 'utf8'; ALTER ROLE $DBOWNER SET timezone TO 'UTC';"
 sudo -u postgres psql -c "ALTER DATABASE csthirdparty OWNER TO $DBOWNER;"
 python3 manage.py migrate
-sudo -u vagrant bash -c "/var/www/csthirdpartysite/create_users.sh"
-sudo -u vagrant bash -c "/var/www/csthirdpartysite/loaddata.sh"
-sudo -u vagrant bash -c "/var/www/csthirdpartysite/collectstatic.sh"
+sudo -u vagrant bash "/var/www/csthirdpartysite/create_users.sh"
+sudo -u vagrant bash "/var/www/csthirdpartysite/loaddata.sh"
+sudo -u vagrant bash "/var/www/csthirdpartysite/collectstatic.sh"
 systemctl restart apache2
 
 # Add other users

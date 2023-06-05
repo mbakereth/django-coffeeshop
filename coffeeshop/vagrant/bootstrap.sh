@@ -19,6 +19,13 @@ apt install -y nmap ufw
 apt install -y pwgen
 apt install -y libpq-dev
 
+# Fix for a problem with pyOpenSSL
+cd /tmp
+apt remove -y python3-pip 
+wget https://bootstrap.pypa.io/get-pip.py
+python3 get-pip.py
+hash -r
+
 # Install mailcatcher
 # Mailcatcher is an implementation of SMTP that stores email locally rather than
 # forwarding it.  You can view and delete the emails via a web local interface.
@@ -76,9 +83,9 @@ sudo -u postgres psql -c "CREATE USER $DBOWNER WITH PASSWORD '$DBOWNERPWD';"
 sudo -u postgres psql -c "ALTER ROLE $DBOWNER SET client_encoding TO 'utf8'; ALTER ROLE $DBOWNER SET timezone TO 'UTC';"
 sudo -u postgres psql -c "ALTER DATABASE coffeeshop OWNER TO $DBOWNER;"
 python3 manage.py migrate
-sudo -u vagrant bash -c "/var/www/coffeeshopsite/create_users.sh"
-sudo -u vagrant bash -c "/var/www/coffeeshopsite/loaddata.sh"
-sudo -u vagrant bash -c "/var/www/coffeeshopsite/collectstatic.sh"
+sudo -u vagrant bash "/var/www/coffeeshopsite/create_users.sh"
+sudo -u vagrant bash "/var/www/coffeeshopsite/loaddata.sh"
+sudo -u vagrant bash "/var/www/coffeeshopsite/collectstatic.sh"
 systemctl restart apache2
 
 # Create other users
